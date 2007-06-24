@@ -217,8 +217,8 @@ def test_FLOAT(string, result):
 @pytest.mark.parametrize(
     ["string", "result"],
     [
-        ("+1e3", (1_000.0, 4)),  # POS INT, E, INT [INCORRECTLY FAILING]
-        ("-1e3", (-1_000.0, 4)),  # NEG INT, E, INT [INCORRECTLY FAILING]
+        ("+1e3", (1_000.0, 4)),  # POS INT, E, INT
+        ("-1e3", (-1_000.0, 4)),  # NEG INT, E, INT
         ("+1e+3", (1_000.0, 5)),  # POS INT, E, POS INT
         ("+1e-3", (0.001, 5)),  # POS INT, E, NEG INT
         ("+1.0e3", (1_000.0, 6)),  # POS DECIMAL, E, INT [INCORRECTLY FAILING]
