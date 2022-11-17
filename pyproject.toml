@@ -4,6 +4,8 @@ version = "1.0.0"
 description = "A simple tokenizer operating on enums with a decent amount of configuration"
 authors = ["trag1c <trag1cdev@yahoo.com>"]
 license = "MIT"
+repository = "https://github.com/trag1c/crossandra"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
