@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from re import compile
+from re import compile, RegexFlag
 from typing import Any, Callable, Generic, Iterator, TypeVar
 
 
@@ -12,9 +12,10 @@ T = TypeVar("T")
 class Rule(Generic[T]):
     pattern: str
     converter: Callable[[str], T] | None = None
+    flags: RegexFlag | int = 0
 
     def __post_init__(self) -> None:
-        self._pattern = compile(self.pattern)
+        self._pattern = compile(self.pattern, self.flags)
 
     def __or__(self, other: Any) -> RuleGroup:
         if isinstance(other, Rule):
