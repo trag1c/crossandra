@@ -42,8 +42,7 @@ When all tokens are of length 1 and there are no additional rules, Crossandra wi
 from random import choices
 from string import punctuation
 
-k = ...
-program = "".join(choices(punctuation, k=k))
+program = "".join(choices(punctuation, k=...))
 ```
 
 k      | Default  | Fast Mode | Speedup
