@@ -1,5 +1,5 @@
-from .lib import Crossandra
+from .lib import Crossandra, CrossandraError
 from .rule import Rule, RuleGroup
 from . import common
 
-__all__ = ("common", "Crossandra", "Rule", "RuleGroup")
+__all__ = ("common", "Crossandra", "CrossandraError", "Rule", "RuleGroup")
