@@ -58,10 +58,14 @@ k      | Default  | Fast Mode | Speedup
 ```py
 Rule[T](
     pattern: str,
-    converter: Callable[[str], T] | None = None
+    converter: Callable[[str], T] | bool = True,
+    flags: RegexFlag | int = 0
 )
 ```
-Used for defining custom rules. `pattern` is a regex pattern to match, and `converter` is a callable to apply to the matched substring. When no `converter` is supplied, the matched substring is returned.
+Used for defining custom rules. `pattern` is a regex pattern to match (`flags` can be supplied).  
+When `converter` is a callable, it's used on the matched substring.  
+When `converter` is `True`, it will directly return the matched substring.  
+When `converter` is `False`, it will not include the matched substring in the token list.
 
 ### `RuleGroup`
 ```py

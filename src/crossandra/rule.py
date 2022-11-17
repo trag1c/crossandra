@@ -1,17 +1,27 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from re import compile, RegexFlag
+from re import RegexFlag, compile
 from typing import Any, Callable, Generic, Iterator, TypeVar
 
 
+class Ignored:
+    ...
+
+
+class NotApplied:
+    ...
+
+
+IGNORED = Ignored()
+NOT_APPLIED = NotApplied()
 T = TypeVar("T")
 
 
 @dataclass
 class Rule(Generic[T]):
     pattern: str
-    converter: Callable[[str], T] | None = None
+    converter: Callable[[str], T] | bool = True
     flags: RegexFlag | int = 0
 
     def __post_init__(self) -> None:
@@ -22,14 +32,17 @@ class Rule(Generic[T]):
             return RuleGroup((self, other))
         return NotImplemented
 
-    def apply(self, target: str) -> tuple[T | str, int] | None:
+    def apply(self, target: str) -> tuple[T | str | Ignored, int] | NotApplied:
         if m := self._pattern.match(target):
             end = m.span()[1]
             matched = m[0]
-            if self.converter:
-                return self.converter(matched), end
-            return matched, end
-        return None
+            conv = self.converter
+            if isinstance(conv, bool):
+                if conv:
+                    return matched, end
+                return IGNORED, end
+            return conv(matched), end
+        return NOT_APPLIED
 
 
 @dataclass(frozen=True)

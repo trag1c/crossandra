@@ -3,9 +3,9 @@ from __future__ import annotations
 from enum import Enum
 from typing import Any
 
-from result import Ok, Err, Result
+from result import Err, Ok, Result
 
-from .rule import Rule, RuleGroup
+from .rule import Ignored, NotApplied, Rule, RuleGroup
 
 
 def invert_enum(enum: type[Enum]) -> dict[str, Enum]:
@@ -74,9 +74,10 @@ class Crossandra:
                 continue
             for rule in self.__rules:
                 tok = rule.apply(code)
-                if tok is not None:
+                if not isinstance(tok, NotApplied):
                     token_, length = tok
-                    t_append(token_)
+                    if not isinstance(tok, Ignored):
+                        t_append(token_)
                     code = code[length:]
                     break
             else:
