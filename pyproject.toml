@@ -1,11 +1,12 @@
 [tool.poetry]
 name = "crossandra"
-version = "1.1.0"
+version = "1.2.0"
 description = "A simple tokenizer operating on enums with a decent amount of configuration"
 authors = ["trag1c <trag1cdev@yahoo.com>"]
 license = "MIT"
 repository = "https://github.com/trag1c/crossandra"
 readme = "README.md"
+build = "_build.py"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -17,5 +18,5 @@ isort = "^5.10.1"
 mypy = "^0.990"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.0.0", "mypy-mypyc"]
 build-backend = "poetry.core.masonry.api"
