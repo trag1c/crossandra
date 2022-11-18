@@ -18,13 +18,13 @@ NOT_APPLIED = NotApplied()
 T = TypeVar("T")
 
 
-@dataclass
 class Rule(Generic[T]):
-    pattern: str
-    converter: Callable[[str], T] | bool = True
-    flags: RegexFlag | int = 0
+    __slots__ = ("pattern", "converter", "flags", "_pattern")
 
-    def __post_init__(self) -> None:
+    def __init__(self, pattern: str, converter: Callable[[str], T] | bool = True, flags: RegexFlag | int = 0) -> None:
+        self.pattern = pattern
+        self.converter = converter
+        self.flags = flags
         self._pattern = compile(self.pattern, self.flags)
 
     def __or__(self, other: Any) -> RuleGroup:
