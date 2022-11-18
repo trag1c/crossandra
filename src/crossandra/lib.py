@@ -76,7 +76,7 @@ class Crossandra:
                 tok = rule.apply(code)
                 if not isinstance(tok, NotApplied):
                     token_, length = tok
-                    if not isinstance(tok, Ignored):
+                    if not isinstance(token_, Ignored):
                         t_append(token_)
                     code = code[length:]
                     break

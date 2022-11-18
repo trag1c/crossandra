@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "crossandra"
-version = "1.2.1"
+version = "1.2.2"
 description = "A simple tokenizer operating on enums with a decent amount of configuration"
 authors = ["trag1c <trag1cdev@yahoo.com>"]
 license = "MIT"
