@@ -6,11 +6,11 @@ from typing import Any, Callable, Generic, Iterator, TypeVar
 
 
 class Ignored:
-    ...
+    pass
 
 
 class NotApplied:
-    ...
+    pass
 
 
 IGNORED = Ignored()

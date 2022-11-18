@@ -13,11 +13,11 @@ def invert_enum(enum: type[Enum]) -> dict[str, Enum]:
 
 
 class Empty(Enum):
-    ...
+    pass
 
 
 class CrossandraError(Exception):
-    ...
+    pass
 
 
 class Crossandra:
