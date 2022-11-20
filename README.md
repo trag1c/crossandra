@@ -1,5 +1,5 @@
 # Crossandra
-Crossandra is a simple tokenizer operating on enums with a decent amount of configuration.
+Crossandra is a fast and simple tokenizer operating on enums with a decent amount of configuration.
 
 ## Installation
 Crossandra is available on PyPI and can be installed with pip, or any other Python package manager:
