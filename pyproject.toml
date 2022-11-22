@@ -10,5 +10,5 @@ requires-python = ">=3.9"
 dependencies = ["result ~= 0.8.0"]
 
 [build-system]
-requires = ["setuptools", "mypy" ]
+requires = ["setuptools", "mypy", "result ~= 0.8.0" ]
 build-backend = "setuptools.build_meta"

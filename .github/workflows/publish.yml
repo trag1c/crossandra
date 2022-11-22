@@ -42,13 +42,13 @@ jobs:
           python-version: "3.9"
       - name: Build Sdist
         run: |
-          python -m build sdist
+          pip install build
+          python -m build --sdist
       - uses: actions/upload-artifact@v3
         with:
           name: dist
           path: |
-            crossandra/dist/*.whl
-            crossandra/dist/*.tar.gz
+            dist/*.tar.gz
 
   # build_wasm_wheel:
   #   name: WASM wheel for 3.10
