@@ -1,22 +1,14 @@
-[tool.poetry]
+[project]
 name = "crossandra"
 version = "1.2.2"
 description = "A simple tokenizer operating on enums with a decent amount of configuration"
-authors = ["trag1c <trag1cdev@yahoo.com>"]
-license = "MIT"
-repository = "https://github.com/trag1c/crossandra"
+authors = [{ email = "trag1c <trag1cdev@yahoo.com>" }]
+license = { text = "MIT" }
+urls = { repository = "https://github.com/trag1c/crossandra" }
 readme = "README.md"
-build = "_build.py"
-
-[tool.poetry.dependencies]
-python = "^3.9"
-result = "^0.8.0"
-
-[tool.poetry.dev-dependencies]
-black = "^22.10.0"
-isort = "^5.10.1"
-mypy = "^0.990"
+requires-python = ">=3.9"
+dependencies = ["result ~= 0.8.0"]
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "mypy-mypyc"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools", "mypy", "result ~= 0.8.0" ]
+build-backend = "setuptools.build_meta"
