@@ -39,18 +39,13 @@ jobs:
       - uses: actions/setup-python@v4
         name: Install Python
         with:
-          python-version: "3.7"
-      - name: Build sdist and wheel
-        run: |
-          cd mypy
-          pip install --upgrade setuptools build
-          python -m build
+          python-version: "3.9"
       - uses: actions/upload-artifact@v3
         with:
           name: dist
           path: |
-            mypy/dist/*.whl
-            mypy/dist/*.tar.gz
+            crossandra/dist/*.whl
+            crossandra/dist/*.tar.gz
 
   # build_wasm_wheel:
   #   name: WASM wheel for 3.10
