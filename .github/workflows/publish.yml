@@ -40,6 +40,9 @@ jobs:
         name: Install Python
         with:
           python-version: "3.9"
+      - name: Build Sdist
+        run: |
+          python -m build sdist
       - uses: actions/upload-artifact@v3
         with:
           name: dist
