@@ -6,8 +6,9 @@ authors = [{ email = "trag1c <trag1cdev@yahoo.com>" }]
 license = { text = "MIT" }
 urls = { repository = "https://github.com/trag1c/crossandra" }
 readme = "README.md"
+requires-python = ">=3.9"
 dependencies = ["result ~= 0.8.0"]
 
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
+requires = ["setuptools", "mypy-mypyc" ]
 build-backend = "setuptools.build_meta"
