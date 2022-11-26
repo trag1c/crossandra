@@ -9,6 +9,12 @@ readme = "README.md"
 requires-python = ">=3.9"
 dependencies = ["result ~= 0.8.0"]
 
+[tool.cibuildwheel.linux]
+archs = ["auto", "aarch64"]
+
+[tool.cibuildwheel.macos]
+archs = ["x86_64", "universal2"]
+
 [build-system]
 requires = ["setuptools", "mypy", "result ~= 0.8.0" ]
 build-backend = "setuptools.build_meta"
