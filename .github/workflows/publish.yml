@@ -17,13 +17,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # cibuildwheel builds linux wheels inside a manylinux container
-        # it also takes care of procuring the correct python version for us
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: [39, 310, 311]
 
     steps:
       - uses: actions/checkout@v3
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
       - uses: pypa/cibuildwheel@v2.11.1
         env:
           CIBW_BUILD: "cp${{ matrix.python-version}}-*"
