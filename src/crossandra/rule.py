@@ -21,7 +21,12 @@ T = TypeVar("T")
 class Rule(Generic[T]):
     __slots__ = ("pattern", "converter", "flags", "_pattern")
 
-    def __init__(self, pattern: str, converter: Callable[[str], T] | bool = True, flags: RegexFlag | int = 0) -> None:
+    def __init__(
+        self,
+        pattern: str,
+        converter: Callable[[str], T] | bool = True,
+        flags: RegexFlag | int = 0,
+    ) -> None:
         self.pattern = pattern
         self.converter = converter
         self.flags = flags
