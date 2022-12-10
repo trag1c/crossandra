@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.4] - 2022-12-10
 
 ### Changed
-- Speed improvements (should be up to 5x faster)
+- Speed improvements (up to 5x faster for pure Python wheels & up to 30% faster for mypyc-compiled wheels)
 
 Big thanks to [@CircuitSacul](https://github.com/CircuitSacul) for implementing the faster algorithm! ❤️
 
