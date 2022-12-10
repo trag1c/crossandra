@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from enum import Enum
-from typing import Any
+from typing import Any, Union
 
 from result import Err, Ok, Result
 
@@ -10,6 +11,27 @@ from .rule import Ignored, NotApplied, Rule, RuleGroup
 
 def invert_enum(enum: type[Enum]) -> dict[str, Enum]:
     return {v.value: v for v in enum.__members__.values()}
+
+
+Tree = dict[str, Union[Enum, "Tree"]]
+
+
+def generate_tree(inp: Iterable[tuple[str, Enum]]) -> Tree:
+    inp = sorted(inp, key=lambda v: len(v[0]), reverse=True)
+    result: Tree = {}
+    for k, v in inp:
+        curr = result
+        for c in k[:-1]:
+            _curr = curr.setdefault(c, {})
+            assert isinstance(_curr, dict)
+            curr = _curr
+        k = k[-1]
+        if (dct := curr.get(k)):
+            assert isinstance(dct, dict)
+            dct[""] = v
+        else:
+            curr[k] = v
+    return result
 
 
 class Empty(Enum):
@@ -29,6 +51,7 @@ class Crossandra:
         "__maxlen",
         "__suppress",
         "__tokens",
+        "__tree",
     )
 
     def __init__(
@@ -52,9 +75,10 @@ class Crossandra:
         self.__keys = sorted(self.__tokens, key=len, reverse=True)
         self.__maxlen = max(map(len, self.__keys or ["1"]))
         self.__suppress = suppress_unknown
+        self.__tree = generate_tree(self.__tokens.items())
 
     def tokenize(self, code: str) -> list[Enum | Any]:
-        code = code.replace("\r\n", "\n")
+        code = code.replace("\r\n", "\n") + " " * (" " in self.__ignored)
 
         if self.__fast:
             toks = self.__tokenize_fast(code)
@@ -91,9 +115,18 @@ class Crossandra:
         return list(map(self.tokenize, code.splitlines()))
 
     def __handle(self, string: str) -> tuple[Result[Enum, str], int]:
-        for tok in self.__keys:
-            if string.startswith(tok):
-                return Ok(self.__tokens[tok]), len(tok)
+        tree = self.__tree
+        for i, v in enumerate(string):
+            c = tree.get(v)
+            if c is None:
+                if "" not in tree:
+                    break
+                c = tree[""]
+                assert isinstance(c, Enum)
+                return Ok(c), i
+            if isinstance(c, Enum):
+                return Ok(c), i + 1
+            tree = c
         return Err(string[0]), 0
 
     def __tokenize_fast(self, code: str) -> Result[list[Enum], str]:
