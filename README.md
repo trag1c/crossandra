@@ -35,7 +35,7 @@ The enum takes priority over the rule list.
 
 When all tokens are of length 1 and there are no additional rules, Crossandra will use a simpler tokenization method (the so called Fast Mode).
 
-> **Example:** Tokenizing noisy Brainfuck code *(tested on MacBook Air M1 (256/16))*
+> **Example:** Tokenizing noisy Brainfuck code *(tested on MacBook Air M1 (256/16) with pure Python wheels)*
 
 ```py
 # Setup
