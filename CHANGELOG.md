@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.4] - 2022-12-10
+
+### Changed
+- Speed improvements (should be up to 5x faster)
+
 ## [1.2.3] - 2022-11-22
 
 ### Fixed
@@ -47,3 +52,4 @@ Initial release 🎉
 [1.2.1]: https://github.com/trag1c/crossandra/compare/1.2.0...1.2.1
 [1.2.2]: https://github.com/trag1c/crossandra/compare/1.2.1...1.2.2
 [1.2.3]: https://github.com/trag1c/crossandra/compare/1.2.2...1.2.3
+[1.2.4]: https://github.com/trag1c/crossandra/compare/1.2.3...1.2.4
