@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Speed improvements (should be up to 5x faster)
 
+Big thanks to [@CircuitSacul](https://github.com/CircuitSacul) for the faster algorithm.
+
 ## [1.2.3] - 2022-11-22
 
 ### Fixed
