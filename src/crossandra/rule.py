@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from re import RegexFlag, compile
-from typing import Any, Callable, Generic, Iterator, TypeVar
+from typing import Any, Generic, TypeVar
 
 
 class Ignored:
