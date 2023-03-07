@@ -14,13 +14,16 @@ class NotApplied:
     pass
 
 
-IGNORED = Ignored()
-NOT_APPLIED = NotApplied()
+IGNORED: Ignored = Ignored()
+NOT_APPLIED: NotApplied = NotApplied()
 T = TypeVar("T")
 
 
 class Rule(Generic[T]):
     __slots__ = ("pattern", "converter", "flags", "_pattern")
+    pattern: str
+    converter: Callable[[str], T] | bool
+    flags: RegexFlag | int
 
     def __init__(
         self,
