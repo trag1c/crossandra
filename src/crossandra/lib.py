@@ -10,7 +10,14 @@ from .rule import Ignored, NotApplied, Rule, RuleGroup
 
 
 def invert_enum(enum: type[Enum]) -> dict[str, Enum]:
-    return {v.value: v for v in enum.__members__.values()}
+    out = {}
+    for v in enum.__members__.values():
+        if isinstance(v.value, tuple):
+            for i in v.value:
+                out[i] = v
+        else:
+            out[v.value] = v
+    return out
 
 
 Tree = dict[str, Union[Enum, "Tree"]]
