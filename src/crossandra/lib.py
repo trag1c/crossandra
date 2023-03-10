@@ -16,6 +16,10 @@ def invert_enum(enum: type[Enum]) -> dict[str, Enum]:
 Tree = dict[str, Union[Enum, "Tree"]]
 
 
+def empty_handler(string: str) -> tuple[Result[Enum, str], int]:
+    return Err(string[0]), 1
+
+
 def generate_tree(inp: Iterable[tuple[str, Enum]]) -> Tree:
     inp = sorted(inp, key=lambda v: len(v[0]), reverse=True)
     result: Tree = {}
@@ -90,8 +94,9 @@ class Crossandra:
         maxlen = self.__maxlen
         ignored = self.__ignored
         t_append = tokens.append
+        handle = self.__handle if self.__tokens else empty_handler
         while code := code.lstrip(ignored):
-            token, length = self.__handle(code[:maxlen])
+            token, length = handle(code[:maxlen])
             if token.is_ok():
                 t_append(token.unwrap())
                 code = code[length:]
