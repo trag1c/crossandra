@@ -15,6 +15,9 @@ archs = ["auto", "aarch64"]
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "universal2"]
 
+[tool.mypy]
+exclude = ["tests/*"]
+
 [build-system]
-requires = ["setuptools", "mypy", "result ~= 0.9.0" ]
+requires = ["setuptools", "mypy", "result ~= 0.9.0"]
 build-backend = "setuptools.build_meta"
