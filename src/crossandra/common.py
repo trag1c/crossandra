@@ -24,6 +24,6 @@ NEWLINE: Rule[str] = Rule(r"\n")
 _exp = rf"[eE]{SIGNED_INT.pattern}"
 _float = rf"{_int}{_exp}|{_decimal}{_exp}?"
 FLOAT: Rule[float] = Rule(_float, float)
-SIGNED_FLOAT: Rule[float] = Rule(r"[+\-" + _float, float)
+SIGNED_FLOAT: Rule[float] = Rule(r"[+\-]" + _float, float)
 NUMBER: RuleGroup = INT | FLOAT
 SIGNED_NUMBER: RuleGroup = SIGNED_INT | SIGNED_FLOAT
