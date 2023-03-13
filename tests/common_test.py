@@ -46,6 +46,9 @@ def test_DOUBLE_QUOTED_STRING(string, result):
     assert DOUBLE_QUOTED_STRING.apply(string) == result
 
 
+# test_STRING <=> test_SINGLE_QUOTED_STRING and test_DOUBLE_QUOTED_STRING
+
+
 @pytest.mark.parametrize(
     ["string", "result"],
     [
@@ -227,3 +230,8 @@ def test_FLOAT(string, result):
 )
 def test_SIGNED_FLOAT(string, result):
     assert SIGNED_FLOAT.apply(string) == result
+
+
+# test_NUMBER <=> test_INT and test_FLOAT
+
+# test_SIGNED_NUMBER <=> test_SIGNED_INT and test_SIGNED_FLOAT
