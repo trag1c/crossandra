@@ -4,6 +4,20 @@ from crossandra.common import *
 from crossandra.rule import *
 
 
+def rule_test_f(rule):
+    """
+    Factory to generate a test from a rule.
+    """
+
+    def decorator(func):
+        def inner(string, result):
+            assert rule.apply(string) == result
+
+        return func
+
+    return decorator
+
+
 @pytest.mark.parametrize(
     ["string", "result"],
     [
@@ -17,8 +31,9 @@ from crossandra.rule import *
         ("'test\\'", NOT_APPLIED),  # ESCAPED ENDING QUOTE
     ],
 )
+@rule_test_f(SINGLE_QUOTED_STRING)
 def test_SINGLE_QUOTED_STRING(string, result):
-    assert SINGLE_QUOTED_STRING.apply(string) == result
+    pass
 
 
 @pytest.mark.parametrize(
@@ -34,8 +49,9 @@ def test_SINGLE_QUOTED_STRING(string, result):
         ('"test\\"', NOT_APPLIED),  # ESCAPED ENDING QUOTE
     ],
 )
+@rule_test_f(DOUBLE_QUOTED_STRING)
 def test_DOUBLE_QUOTED_STRING(string, result):
-    assert DOUBLE_QUOTED_STRING.apply(string) == result
+    pass
 
 
 @pytest.mark.parametrize(
@@ -51,5 +67,22 @@ def test_DOUBLE_QUOTED_STRING(string, result):
         ("'t\\'", NOT_APPLIED),  # ESCAPED ENDING QUOTE
     ],
 )
+@rule_test_f(CHAR)
 def test_CHAR(string, result):
-    assert CHAR.apply(string) == result
+    pass
+
+
+@pytest.mark.parametrize(
+    ["string", "result"],
+    [
+        ("A", ("A", 1)),  # UPPERCASE LETTER
+        ("a", ("a", 1)),  # LOWERCASE LETTER
+        ("", NOT_APPLIED),  # EMPTY STRING
+        ("!", NOT_APPLIED),  # ASCII CHAR BETWEEN UPPERCASE AND LOWERCASE
+        ("@", NOT_APPLIED),  # ASCII CHAR BEFORE UPPERCASE
+        ("|", NOT_APPLIED),  # ASCII CHAR AFTER LOWERCASE
+    ],
+)
+@rule_test_f(LETTER)
+def test_LETTER(string, result):
+    pass
