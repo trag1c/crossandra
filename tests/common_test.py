@@ -110,7 +110,7 @@ def test_DIGIT(string, result):
     [
         ("69", (69, 2)),  # CLASSIC
         ("069", (69, 3)),  # LEADING ZERO
-        ("1_000_000", (1000000, 9)),  # USCORE SEPARATOR  [INCORRECTLY FAILING]
+        ("1_000_000", (1000000, 9)),  # USCORE SEPARATOR
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
