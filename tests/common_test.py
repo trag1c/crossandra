@@ -13,7 +13,7 @@ def rule_test_f(rule):
         def inner(string, result):
             assert rule.apply(string) == result
 
-        return func
+        return inner
 
     return decorator
 
@@ -103,7 +103,7 @@ def test_WORD(string, result):
 @pytest.mark.parametrize(
     ["string", "result"],
     [
-        ("0", ("0", 1)),  # NORMAL DIGIT
+        ("0", (0, 1)),  # NORMAL DIGIT
         ("", NOT_APPLIED),  # EMPTY STRING
         ("/", NOT_APPLIED),  # CHAR BEFORE DIGITS IN ASCII TABLE
         (":", NOT_APPLIED),  # CHAR AFTER DIGITS IN ASCII TABLE
@@ -117,8 +117,8 @@ def test_DIGIT(string, result):
 @pytest.mark.parametrize(
     ["string", "result"],
     [
-        ("69", ("69", 2)),  # NORMAL INT
-        ("069", ("069", 3)),  # LEADING ZERO
+        ("69", (69, 2)),  # NORMAL INT
+        ("069", (69, 3)),  # LEADING ZERO
         ("1_000_000", NOT_APPLIED),  # UNDERSCORE SEPARATOR
         ("", NOT_APPLIED),  # EMPTY STRING
     ],
@@ -131,11 +131,11 @@ def test_INT(string, result):
 @pytest.mark.parametrize(
     ["string", "result"],
     [
-        ("3.14", ("3.14", 4)),  # NORMAL DECIMAL
-        ("3.0", ("3.0", 3)),  # POST-COMMA TRAILING ZERO
-        ("69.42", ("69.42", 5)),  # MULTI-DIGIT INT BASE DECIMAL
-        ("0.92", ("0.92", 4)),  # ZERO DIGIT DECIMAL
-        (".92", (".92", 3)),  # IMPLICIT ZERO DIGIT DECIMAL
+        ("3.14", (3.14, 4)),  # NORMAL DECIMAL
+        ("3.0", (3.0, 3)),  # POST-COMMA TRAILING ZERO
+        ("69.42", (69.42, 5)),  # MULTI-DIGIT INT BASE DECIMAL
+        ("0.92", (0.92, 4)),  # ZERO DIGIT DECIMAL
+        (".92", (0.92, 3)),  # IMPLICIT ZERO DIGIT DECIMAL
         ("3.", NOT_APPLIED),  # IMPLICIT POST-COMMA ZERO
         ("", NOT_APPLIED),  # EMPTY STRING
     ],
