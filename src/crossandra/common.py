@@ -20,6 +20,6 @@ NEWLINE: Rule[str] = Rule(r"\n")
 _exp = rf"(?:[eE][+\-]?{_int})"
 _float = rf"{_int}{_exp}|(?:{_int}\.[0-9]*|\.[0-9]+){_exp}?"
 FLOAT: Rule[float] = Rule(_float, float)
-SIGNED_FLOAT: Rule[float] = Rule(r"[+\-]" + _float, float)
+SIGNED_FLOAT: Rule[float] = Rule(rf"[+\-](?:{_float})", float)
 NUMBER: RuleGroup = INT | FLOAT
 SIGNED_NUMBER: RuleGroup = SIGNED_INT | SIGNED_FLOAT
