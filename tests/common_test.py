@@ -123,12 +123,12 @@ def test_SIGNED_INT(string, result):
 @pytest.mark.parametrize(
     ["string", "result"],
     [
-        ("3.14", (3.14, 4)),  # NORMAL DECIMAL  [INCORRECTLY FAILING]
+        ("3.14", (3.14, 4)),  # NORMAL DECIMAL
         ("3.0", (3.0, 3)),  # POST-COMMA TRAILING ZERO
-        ("69.42", (69.42, 5)),  # MULTI-DIGIT INT BASE DECIMAL  [INCORRECTLY FAILING]
-        ("0.92", (0.92, 4)),  # ZERO DIGIT DECIMAL  [INCORRECTLY FAILING]
+        ("69.42", (69.42, 5)),  # MULTI-DIGIT INT BASE DECIMAL
+        ("0.92", (0.92, 4)),  # ZERO DIGIT DECIMAL
         (".92", (0.92, 3)),  # IMPLICIT ZERO DIGIT DECIMAL
-        ("3.", NOT_APPLIED),  # IMPLICIT POST-COMMA ZERO
+        ("3.", (3.0, 2)),  # IMPLICIT POST-COMMA ZERO
         ("", NOT_APPLIED),  # EMPTY STRING
     ],
 )
@@ -182,3 +182,19 @@ def test_C_NAME(string, result):
 )
 def test_NEWLINE(string, result):
     assert NEWLINE.apply(string) == result
+
+
+@pytest.mark.parametrize(
+    ["string", "result"],
+    [
+        ("1e3", (1_000.0, 3)),  # INT + LOWERCASE E + INT  [INCORRECTLY FAILING]
+        ("1e+3", (1_000.0, 4)),  # INT + E + POSITIVE INT
+        ("1e-3", (0.001, 4)),  # INT + E + NEGATIVE INT
+        ("1E3", (1_000.0, 3)),  # INT + UPPERCASE E + INT [INCORRECTLY FAILING]
+        ("1.0e3", (1_000.0, 5)),  # DECIMAL + E + INT [INCORRECTLY FAILING]
+        ("1.0e+3", (1_000.0, 6)),  # DECIMAL + E + POSITIVE INT [INCORRECTLY FAILING]
+        ("1.0e-3", (0.001, 6)),  # DECIMAL + E + NEGATIVE INT [INCORRECTLY FAILING]
+    ],
+)
+def test_FLOAT(string, result):
+    assert FLOAT.apply(string) == result
