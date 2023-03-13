@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from enum import Enum
-from typing import Any, Union
+from typing import Any, Dict, Union
 
 from result import Err, Ok, Result
 
@@ -20,7 +20,7 @@ def invert_enum(enum: type[Enum]) -> dict[str, Enum]:
     return out
 
 
-Tree = dict[str, Union[Enum, "Tree"]]
+Tree = Dict[str, Union[Enum, "Tree"]]
 
 
 def empty_handler(string: str) -> tuple[Result[Enum, str], int]:
