@@ -99,7 +99,7 @@ def test_DIGIT(string, result):
     [
         ("69", (69, 2)),  # NORMAL INT
         ("069", (69, 3)),  # LEADING ZERO
-        ("1_000_000", NOT_APPLIED),  # UNDERSCORE SEPARATOR
+        ("1_000_000", NOT_APPLIED),  # UNDERSCORE SEPARATOR  [INCORRECTLY FAILING]
         ("", NOT_APPLIED),  # EMPTY STRING
     ],
 )
@@ -110,10 +110,10 @@ def test_INT(string, result):
 @pytest.mark.parametrize(
     ["string", "result"],
     [
-        ("3.14", (3.14, 4)),  # NORMAL DECIMAL
+        ("3.14", (3.14, 4)),  # NORMAL DECIMAL  [INCORRECTLY FAILING]
         ("3.0", (3.0, 3)),  # POST-COMMA TRAILING ZERO
-        ("69.42", (69.42, 5)),  # MULTI-DIGIT INT BASE DECIMAL
-        ("0.92", (0.92, 4)),  # ZERO DIGIT DECIMAL
+        ("69.42", (69.42, 5)),  # MULTI-DIGIT INT BASE DECIMAL  [INCORRECTLY FAILING]
+        ("0.92", (0.92, 4)),  # ZERO DIGIT DECIMAL  [INCORRECTLY FAILING]
         (".92", (0.92, 3)),  # IMPLICIT ZERO DIGIT DECIMAL
         ("3.", NOT_APPLIED),  # IMPLICIT POST-COMMA ZERO
         ("", NOT_APPLIED),  # EMPTY STRING
