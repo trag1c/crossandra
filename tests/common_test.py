@@ -9,7 +9,7 @@ from crossandra.rule import *
 # LC = LOWERCASE
 # POS = POSITIVE
 # NEG = NEGATIVE
-# USCORE = UNDERSCORD
+# USCORE = UNDERSCORE
 
 
 @pytest.mark.parametrize(
