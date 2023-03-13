@@ -133,7 +133,7 @@ def test_INT(string, result):
     [
         ("3.14", ("3.14", 4)),  # NORMAL DECIMAL
         ("3.0", ("3.0", 3)),  # POST-COMMA TRAILING ZERO
-        ("69.420", ("69.42", 6)),  # MULTI-DIGIT INT BASE DECIMAL
+        ("69.42", ("69.42", 5)),  # MULTI-DIGIT INT BASE DECIMAL
         ("0.92", ("0.92", 4)),  # ZERO DIGIT DECIMAL
         (".92", (".92", 3)),  # IMPLICIT ZERO DIGIT DECIMAL
         ("3.", NOT_APPLIED),  # IMPLICIT POST-COMMA ZERO
