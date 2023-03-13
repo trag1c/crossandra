@@ -1,7 +1,7 @@
 from .rule import Rule, RuleGroup
 
 _digit = r"[0-9]"
-_int = r"[0-9]+"
+_int = r"[0-9](?:[0-9_]*[0-9])?"
 _decimal = rf"{_int}\.(?:{_int})?|\.{_int}"
 _hexdigit = r"[0-9A-Fa-f]"
 _letter = r"[A-Za-z]"
