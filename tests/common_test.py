@@ -200,13 +200,13 @@ def test_NEWLINE(string, result):
 @pytest.mark.parametrize(
     ["string", "result"],
     [
-        ("1e3", (1_000.0, 3)),  # INT, LC E, INT  [INCORRECTLY FAILING]
+        ("1e3", (1_000.0, 3)),  # INT, LC E, INT
         ("1e+3", (1_000.0, 4)),  # INT, E, POS INT
         ("1e-3", (0.001, 4)),  # INT, E, NEG INT
-        ("1E3", (1_000.0, 3)),  # INT, UC E, INT [INCORRECTLY FAILING]
-        ("1.0e3", (1_000.0, 5)),  # DECIMAL, E, INT [INCORRECTLY FAILING]
-        ("1.0e+3", (1_000.0, 6)),  # DECIMAL, E, POS INT [INCORRECTLY FAILING]
-        ("1.0e-3", (0.001, 6)),  # DECIMAL, E, NEG INT [INCORRECTLY FAILING]
+        ("1E3", (1_000.0, 3)),  # INT, UC E, INT
+        ("1.0e3", (1_000.0, 5)),  # DECIMAL, E, INT
+        ("1.0e+3", (1_000.0, 6)),  # DECIMAL, E, POS INT
+        ("1.0e-3", (0.001, 6)),  # DECIMAL, E, NEG INT
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
