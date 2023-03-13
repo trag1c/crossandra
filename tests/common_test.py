@@ -4,20 +4,6 @@ from crossandra.common import *
 from crossandra.rule import *
 
 
-def rule_test_f(rule):
-    """
-    Factory to generate a test from a rule.
-    """
-
-    def decorator(func):
-        def inner(string, result):
-            assert rule.apply(string) == result
-
-        return inner
-
-    return decorator
-
-
 @pytest.mark.parametrize(
     ["string", "result"],
     [
@@ -31,9 +17,8 @@ def rule_test_f(rule):
         ("'test\\'", NOT_APPLIED),  # ESCAPED ENDING QUOTE
     ],
 )
-@rule_test_f(SINGLE_QUOTED_STRING)
 def test_SINGLE_QUOTED_STRING(string, result):
-    pass
+    assert SINGLE_QUOTED_STRING.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -49,9 +34,8 @@ def test_SINGLE_QUOTED_STRING(string, result):
         ('"test\\"', NOT_APPLIED),  # ESCAPED ENDING QUOTE
     ],
 )
-@rule_test_f(DOUBLE_QUOTED_STRING)
 def test_DOUBLE_QUOTED_STRING(string, result):
-    pass
+    assert DOUBLE_QUOTED_STRING.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -67,9 +51,8 @@ def test_DOUBLE_QUOTED_STRING(string, result):
         ("'t\\'", NOT_APPLIED),  # ESCAPED ENDING QUOTE
     ],
 )
-@rule_test_f(CHAR)
 def test_CHAR(string, result):
-    pass
+    assert CHAR.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -83,9 +66,8 @@ def test_CHAR(string, result):
         ("|", NOT_APPLIED),  # ASCII CHAR AFTER LOWERCASE
     ],
 )
-@rule_test_f(LETTER)
 def test_LETTER(string, result):
-    pass
+    assert LETTER.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -95,9 +77,8 @@ def test_LETTER(string, result):
         ("", NOT_APPLIED),  # EMPTY STRING
     ],
 )
-@rule_test_f(WORD)
 def test_WORD(string, result):
-    pass
+    assert WORD.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -109,9 +90,8 @@ def test_WORD(string, result):
         (":", NOT_APPLIED),  # CHAR AFTER DIGITS IN ASCII TABLE
     ],
 )
-@rule_test_f(DIGIT)
 def test_DIGIT(string, result):
-    pass
+    assert DIGIT.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -123,9 +103,8 @@ def test_DIGIT(string, result):
         ("", NOT_APPLIED),  # EMPTY STRING
     ],
 )
-@rule_test_f(INT)
 def test_INT(string, result):
-    pass
+    assert INT.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -140,6 +119,5 @@ def test_INT(string, result):
         ("", NOT_APPLIED),  # EMPTY STRING
     ],
 )
-@rule_test_f(DECIMAL)
 def test_DECIMAL(string, result):
-    pass
+    assert DECIMAL.apply(string) == result
