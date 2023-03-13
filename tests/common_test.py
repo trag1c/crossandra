@@ -86,3 +86,60 @@ def test_CHAR(string, result):
 @rule_test_f(LETTER)
 def test_LETTER(string, result):
     pass
+
+
+@pytest.mark.parametrize(
+    ["string", "result"],
+    [
+        ("word", ("word", 4)),  # NORMAL WORD
+        ("", NOT_APPLIED),  # EMPTY STRING
+    ],
+)
+@rule_test_f(WORD)
+def test_WORD(string, result):
+    pass
+
+
+@pytest.mark.parametrize(
+    ["string", "result"],
+    [
+        ("0", ("0", 1)),  # NORMAL DIGIT
+        ("", NOT_APPLIED),  # EMPTY STRING
+        ("/", NOT_APPLIED),  # CHAR BEFORE DIGITS IN ASCII TABLE
+        (":", NOT_APPLIED),  # CHAR AFTER DIGITS IN ASCII TABLE
+    ],
+)
+@rule_test_f(DIGIT)
+def test_DIGIT(string, result):
+    pass
+
+
+@pytest.mark.parametrize(
+    ["string", "result"],
+    [
+        ("69", ("69", 2)),  # NORMAL INT
+        ("069", ("069", 3)),  # LEADING ZERO
+        ("1_000_000", NOT_APPLIED),  # UNDERSCORE SEPARATOR
+        ("", NOT_APPLIED),  # EMPTY STRING
+    ],
+)
+@rule_test_f(INT)
+def test_INT(string, result):
+    pass
+
+
+@pytest.mark.parametrize(
+    ["string", "result"],
+    [
+        ("3.14", ("3.14", 4)),  # NORMAL DECIMAL
+        ("3.0", ("3.0", 3)),  # POST-COMMA TRAILING ZERO
+        ("69.420", ("69.42", 6)),  # MULTI-DIGIT INT BASE DECIMAL
+        ("0.92", ("0.92", 4)),  # ZERO DIGIT DECIMAL
+        (".92", (".92", 3)),  # IMPLICIT ZERO DIGIT DECIMAL
+        ("3.", NOT_APPLIED),  # IMPLICIT POST-COMMA ZERO
+        ("", NOT_APPLIED),  # EMPTY STRING
+    ],
+)
+@rule_test_f(DECIMAL)
+def test_DECIMAL(string, result):
+    pass
