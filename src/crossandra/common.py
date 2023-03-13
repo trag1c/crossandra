@@ -1,7 +1,7 @@
 from .rule import Rule, RuleGroup
 
 _digit = r"[0-9]"
-_int = r"[0-9]+"
+_int = r"[0-9](?:[0-9_]*[0-9])?"
 _decimal = rf"{_int}\.(?:{_int})?|\.{_int}"
 _hexdigit = r"[0-9A-Fa-f]"
 _letter = r"[A-Za-z]"
@@ -21,8 +21,8 @@ HEXDIGIT: Rule[int] = Rule(_hexdigit, lambda n: int(n, 16))
 C_NAME: Rule[str] = Rule(rf"(?:_|{_letter})(?:_|{_letter}|{_digit})*")
 NEWLINE: Rule[str] = Rule(r"\n")
 
-_exp = rf"[eE]{SIGNED_INT.pattern}"
-_float = rf"{_int}{_exp}|{_decimal}{_exp}?"
+_exp = rf"(?:[eE][+\-]?{_int})"
+_float = rf"{_int}{_exp}|(?:{_int}\.[0-9]*|\.[0-9]+){_exp}?"
 FLOAT: Rule[float] = Rule(_float, float)
 SIGNED_FLOAT: Rule[float] = Rule(r"[+\-]" + _float, float)
 NUMBER: RuleGroup = INT | FLOAT
