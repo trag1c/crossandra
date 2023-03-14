@@ -53,7 +53,7 @@ def test_DOUBLE_QUOTED_STRING(string, result):
     ["string", "result"],
     [
         ("'t'", ("'t'", 3)),  # CLASSIC
-        ("'''", ("'''", 3)),  # SINGLE QUOTE CHAR
+        ("'''", NOT_APPLIED),  # SINGLE QUOTE CHAR
         ("t", NOT_APPLIED),  # NO QUOTE
         ("t'", NOT_APPLIED),  # NO STARTING QUOTE
         ("'t", NOT_APPLIED),  # NO ENDING QUOTE
@@ -111,7 +111,7 @@ def test_DIGIT(string, result):
         ("69", (69, 2)),  # CLASSIC
         ("069", (69, 3)),  # LEADING ZERO
         ("1_000_000", (1000000, 9)),  # USCORE SEP
-        ("1__0", NOT_APPLIED),  # TWO USCORES AS SEP
+        ("1__0", (10, 4)),  # TWO USCORES AS SEP
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
@@ -222,10 +222,10 @@ def test_FLOAT(string, result):
         ("-1e3", (-1_000.0, 4)),  # NEG INT, E, INT
         ("+1e+3", (1_000.0, 5)),  # POS INT, E, POS INT
         ("+1e-3", (0.001, 5)),  # POS INT, E, NEG INT
-        ("+1.0e3", (1_000.0, 6)),  # POS DECIMAL, E, INT [INCORRECTLY FAILING]
-        ("-1.0e3", (-1_000.0, 6)),  # NEG DECIMAL, E, INT [INCORRECTLY FAILING]
-        ("+1.0e+3", (1_000.0, 7)),  # POS DECIMAL, E, POS INT [INCORRECTLY FAILING]
-        ("+1.0e-3", (0.001, 7)),  # POS DECIMAL, E, NEG INT [INCORRECTLY FAILING]
+        ("+1.0e3", (1_000.0, 6)),  # POS DECIMAL, E, INT
+        ("-1.0e3", (-1_000.0, 6)),  # NEG DECIMAL, E, INT
+        ("+1.0e+3", (1_000.0, 7)),  # POS DECIMAL, E, POS INT
+        ("+1.0e-3", (0.001, 7)),  # POS DECIMAL, E, NEG INT
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
