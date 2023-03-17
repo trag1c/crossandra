@@ -34,7 +34,7 @@ class Rule(Generic[T]):
         self.pattern = pattern
         self.converter = converter
         self.flags = flags
-        self._pattern = compile(self.pattern, self.flags)
+        self._pattern = compile(pattern, flags)
 
     def __or__(self, other: Any) -> RuleGroup:
         if isinstance(other, Rule):
