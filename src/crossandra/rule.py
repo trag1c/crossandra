@@ -24,7 +24,7 @@ class Rule(Generic[T]):
     Used for defining custom rules. `pattern` is a regex pattern to
     match (`flags` can be supplied).
 
-    When `converter` is a callable, it's called with the matched
+    When `converter` is a callable, it will be called with the matched
     substring as the argument.
     When `True`, it will directly return the matched substring.
     When `False`, the matched substring will be excluded from output.
