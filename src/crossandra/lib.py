@@ -123,7 +123,7 @@ class Crossandra:
 
         return tokens
 
-    def tokenize_lines(self, code: str) -> list[list[Enum]]:
+    def tokenize_lines(self, code: str) -> list[list[Enum | Any]]:
         return list(map(self.tokenize, code.splitlines()))
 
     def __handle(self, string: str) -> tuple[Result[Enum, str], int]:
