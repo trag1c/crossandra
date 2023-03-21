@@ -14,7 +14,7 @@ instead)
 ## License
 Crossandra is licensed under the MIT License.
 
-## [Reference](https://github.com/trag1c/crossandra/wiki/The-Crossandra-class)
+## [Documentation](https://github.com/trag1c/crossandra/wiki/The-Crossandra-class)
 
 ## Examples
 ```py
