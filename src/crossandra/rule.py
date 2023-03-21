@@ -66,6 +66,10 @@ class Rule(Generic[T]):
 
 @dataclass(frozen=True)
 class RuleGroup:
+    """
+    Used for storing multiple Rules in one object. Can be constructed
+    with a tuple of rules or by ORing (`|`) two or more rules.
+    """
     rules: tuple[Rule[Any], ...]
 
     def __iter__(self) -> Iterator[Rule[Any]]:
