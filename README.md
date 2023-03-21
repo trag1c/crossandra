@@ -34,7 +34,8 @@ Creates a Crossandra tokenizer, takes the following arguments:
 - `suppress_unknown`: whether unknown tokens should throw an error
 - `rules`: a list of additional rules to use
 
-The enum takes priority over the rule list.
+The enum takes priority over the rule list.  
+The list of rules is ordered by priority (descending).
 
 ### `Crossandra.tokenize`
 ```py
