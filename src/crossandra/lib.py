@@ -54,6 +54,19 @@ class CrossandraError(Exception):
 
 
 class Crossandra:
+    """
+    A Crossandra tokenizer. Takes the following arguments:
+    - `token_source`: an enum containing all possible tokens (defaults
+      to an empty enum)
+    - `ignore_whitespace`: whether spaces, tabs, newlines etc. should
+      be ignored
+    - `suppress_unknown`: whether unknown tokens should throw an error
+    - `rules`: a list of additional rules to use
+
+    The enum takes priority over the rule list.\\
+    The list of rules is ordered by priority (descending).
+    """
+
     __slots__ = (
         "__rules",
         "__fast",
