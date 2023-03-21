@@ -46,7 +46,7 @@ def generate_tree(inp: Iterable[tuple[str, Enum]]) -> Tree:
 
 
 class Empty(Enum):
-    pass
+    """An empty enum. Used by Crossandra if no enum is supplied."""
 
 
 class CrossandraError(Exception):
