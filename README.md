@@ -95,8 +95,8 @@ When `False`, the matched substring will be excluded from output.
 ```py
 RuleGroup(rules: tuple[Rule[Any], ...])
 ```
-Used for storing multiple Rules in one object. Can be constructed by ORing two
-or more Rules.
+Used for storing multiple Rules in one object. Can be constructed with a tuple
+of rules or by ORing (`|`) two or more Rules.
 
 ### `common`
 The `common` submodule is a collection of commonly used patterns.
