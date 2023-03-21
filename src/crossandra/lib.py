@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from enum import Enum
-from typing import Any, Dict, Union
+from typing import Any, Dict, Union, cast
 
 from result import Err, Ok, Result
 
@@ -150,7 +150,12 @@ class Crossandra:
 
     def __handle(self, string: str) -> tuple[Result[Enum, str], int]:
         tree = self.__tree
+        break_path: tuple[Enum, int] | None = None
+
         for i, v in enumerate(string):
+            if "" in tree:
+                break_path = (cast(Enum, tree[""]), i)
+
             c = tree.get(v)
             if c is None:
                 if "" not in tree:
@@ -161,6 +166,10 @@ class Crossandra:
             if isinstance(c, Enum):
                 return Ok(c), i + 1
             tree = c
+
+        if break_path:
+            return Ok(break_path[0]), break_path[1]
+
         return Err(string[0]), 0
 
     def __tokenize_fast(self, code: str) -> Result[list[Enum], str]:
