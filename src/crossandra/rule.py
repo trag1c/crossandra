@@ -52,6 +52,17 @@ class Rule(Generic[T]):
         return NotImplemented
 
     def apply(self, target: str) -> tuple[T | str | Ignored, int] | NotApplied:
+        """
+        Checks if `target` matches the Rule's pattern. If it does,
+        returns a tuple with
+        - if the Rule's converter is `False`: the `Ignored` sentinel
+        - if the Rule's converter is `True`: the matched substring
+        - otherwise: the result of calling the Rule's converter on the
+            matched substring
+
+        and the length of the matched substring. If it doesn't, returns
+        the `NotApplied` sentinel.
+        """
         if m := self._pattern.match(target):
             end = m.span()[1]
             matched = m[0]
