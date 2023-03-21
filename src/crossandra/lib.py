@@ -140,6 +140,12 @@ class Crossandra:
         return tokens
 
     def tokenize_lines(self, code: str) -> list[list[Enum | Any]]:
+        """
+        Tokenizes the input string line by line. Returns a nested list
+        of tokens, where each inner list corresponds to a consecutive
+        line of the input string. Equivalent to
+        `[foo.tokenize(line) for line in source.splitlines()]`.
+        """
         return list(map(self.tokenize, code.splitlines()))
 
     def __handle(self, string: str) -> tuple[Result[Enum, str], int]:
