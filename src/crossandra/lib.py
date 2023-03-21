@@ -102,6 +102,9 @@ class Crossandra:
         self.__tree = generate_tree(self.__tokens.items())
 
     def tokenize(self, code: str) -> list[Enum | Any]:
+        """
+        Tokenizes the input string. Returns a list of tokens.
+        """
         code = code.replace("\r\n", "\n") + " " * (" " in self.__ignored)
 
         if self.__fast:
