@@ -37,7 +37,21 @@ Creates a Crossandra tokenizer, takes the following arguments:
 
 The enum takes priority over the rule list.
 
----
+### `Crossandra.tokenize`
+```py
+def tokenize(self, code: str) -> list[Enum | Any]
+```
+Tokenizes the input string. Returns a list of tokens.
+
+### `Crossandra.tokenize_lines`
+```py
+def tokenize_lines(self, code: str) -> list[list[Enum | Any]]
+```
+Tokenizes the input string line by line. Returns a nested list of tokens, where
+each inner list corresponds to a consecutive line of the input string.
+Equivalent to `[foo.tokenize(line) for line in source.splitlines()]`.
+
+### Fast Mode
 
 When all tokens are of length 1 and there are no additional rules, Crossandra
 will use a simpler tokenization method (the so called Fast Mode).
