@@ -147,7 +147,6 @@ class Crossandra:
         `[foo.tokenize(line) for line in source.splitlines()]`.
         """
         return list(map(self.tokenize, code.splitlines()))
-    
     def __handle(self, string: str) -> tuple[Result[Enum, str], int]:
         tree = self.__tree
         break_path: tuple[Enum, int] | None = None
