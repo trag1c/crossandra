@@ -50,7 +50,7 @@ class Empty(Enum):
 
 
 class CrossandraError(Exception):
-    pass
+    """Unhandled invalid token during tokenization."""
 
 
 class Crossandra:
