@@ -1,12 +1,15 @@
 # Crossandra
-Crossandra is a fast and simple tokenization library for Python operating on enums and regular expressions, with a decent amount of configuration.
+Crossandra is a fast and simple tokenization library for Python operating on
+enums and regular expressions, with a decent amount of configuration.
 
 ## Installation
-Crossandra is available on PyPI and can be installed with pip, or any other Python package manager:
+Crossandra is available on PyPI and can be installed with pip, or any other
+Python package manager:
 ```sh
 $ pip install crossandra
 ```
-(Some systems may require you to use `pip3`, `python -m pip`, or `py -m pip` instead)
+(Some systems may require you to use `pip3`, `python -m pip`, or `py -m pip`
+instead)
 
 ## License
 Crossandra is licensed under the MIT License.
@@ -23,19 +26,23 @@ Crossandra(
     rules: list[Rule | RuleGroup] | None = None
 )
 ```
-- `token_source`: an enum containing all possible tokens (defaults to an empty enum)
+- `token_source`: an enum containing all possible tokens (defaults to an empty
+  enum)
 - `ignore_whitespace`: whether spaces, tabs, newlines etc. should be ignored
 - `ignored_characters`: characters to skip during tokenization
-- `suppress_unknown`: whether unknown tokens should continue without throwing an error
+- `suppress_unknown`: whether unknown tokens should continue without throwing
+  an error
 - `rules`: a list of additional rules to use
 
 The enum takes priority over the rule list.
 
 ---
 
-When all tokens are of length 1 and there are no additional rules, Crossandra will use a simpler tokenization method (the so called Fast Mode).
+When all tokens are of length 1 and there are no additional rules, Crossandra
+will use a simpler tokenization method (the so called Fast Mode).
 
-> **Example:** Tokenizing noisy Brainfuck code *(tested on MacBook Air M1 (256/16) with pure Python wheels)*
+> **Example:** Tokenizing noisy Brainfuck code  
+> *(tested on MacBook Air M1 (256/16) with pure Python wheels)*
 
 ```py
 # Setup
@@ -73,7 +80,8 @@ When `False`, the matched substring will be excluded from output.
 ```py
 RuleGroup(rules: tuple[Rule[Any], ...])
 ```
-Used for storing multiple Rules in one object. Can be constructed by ORing two or more Rules.
+Used for storing multiple Rules in one object. Can be constructed by ORing two
+or more Rules.
 
 ### `common`
 The `common` submodule is a collection of commonly used patterns.
