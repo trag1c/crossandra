@@ -26,6 +26,7 @@ Crossandra(
     rules: list[Rule | RuleGroup] | None = None
 )
 ```
+Creates a Crossandra tokenizer, takes the following arguments:
 - `token_source`: an enum containing all possible tokens (defaults to an empty
   enum)
 - `ignore_whitespace`: whether spaces, tabs, newlines etc. should be ignored
