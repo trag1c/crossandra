@@ -31,8 +31,7 @@ Creates a Crossandra tokenizer, takes the following arguments:
   enum)
 - `ignore_whitespace`: whether spaces, tabs, newlines etc. should be ignored
 - `ignored_characters`: characters to skip during tokenization
-- `suppress_unknown`: whether unknown tokens should continue without throwing
-  an error
+- `suppress_unknown`: whether unknown tokens should throw an error
 - `rules`: a list of additional rules to use
 
 The enum takes priority over the rule list.
