@@ -6,6 +6,7 @@ from typing import Any, Dict, Union, cast
 
 from result import Err, Ok, Result
 
+from .exceptions import CrossandraTokenizationError
 from .rule import Ignored, NotApplied, Rule, RuleGroup
 
 
@@ -47,10 +48,6 @@ def generate_tree(inp: Iterable[tuple[str, Enum]]) -> Tree:
 
 class Empty(Enum):
     """An empty enum. Used by Crossandra if no enum is supplied."""
-
-
-class CrossandraError(Exception):
-    """Unhandled invalid token during tokenization."""
 
 
 class Crossandra:
@@ -120,7 +117,7 @@ class Crossandra:
             toks = self.__tokenize_fast(code)
             if toks.is_ok():
                 return toks.unwrap()
-            raise CrossandraError(f"invalid token: {toks.unwrap_err()!r}")
+            raise CrossandraTokenizationError(f"invalid token: {toks.unwrap_err()!r}")
 
         tokens: list[Enum | Any] = []
         maxlen = self.__maxlen
@@ -143,7 +140,9 @@ class Crossandra:
                     break
             else:
                 if not self.__suppress:
-                    raise CrossandraError(f"invalid token: {token.unwrap_err()!r}")
+                    raise CrossandraTokenizationError(
+                        f"invalid token: {token.unwrap_err()!r}"
+                    )
                 code = code[1:]
 
         return tokens
