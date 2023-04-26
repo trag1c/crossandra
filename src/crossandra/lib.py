@@ -58,6 +58,7 @@ class Crossandra:
     A Crossandra tokenizer. Takes the following arguments:
     - `token_source`: an enum containing all possible tokens (defaults
       to an empty enum)
+    - `ignored_characters`: a string of characters to ignore (defaults to "")
     - `ignore_whitespace`: whether spaces, tabs, newlines etc. should
       be ignored (defaults to False)
     - `suppress_unknown`: whether unknown token errors should be suppressed
