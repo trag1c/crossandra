@@ -5,6 +5,8 @@ from dataclasses import dataclass
 from re import RegexFlag, compile
 from typing import Any, Generic, TypeVar
 
+from .exceptions import CrossandraValueError
+
 
 class Ignored:
     pass
@@ -30,21 +32,49 @@ class Rule(Generic[T]):
     When `False`, the matched substring will be excluded from output.
     """
 
-    __slots__ = ("pattern", "converter", "flags", "_pattern")
-    pattern: str
-    converter: Callable[[str], T] | bool
-    flags: RegexFlag | int
+    __slots__ = (
+        "__compiled_pattern",
+        "__converter",
+        "__flags",
+        "__ignore",
+        "__pattern",
+    )
+    _pattern: str
+    _converter: Callable[[str], T] | None
+    _ignore: bool
+    _flags: RegexFlag | int
 
     def __init__(
         self,
         pattern: str,
-        converter: Callable[[str], T] | bool = True,
+        converter: Callable[[str], T] | None = None,
+        *,
         flags: RegexFlag | int = 0,
+        ignore: bool = False,
     ) -> None:
-        self.pattern = pattern
-        self.converter = converter
-        self.flags = flags
-        self._pattern = compile(pattern, flags)
+        if ignore and converter:
+            raise CrossandraValueError("cannot use a converter when ignore=True")
+        self.__ignore = True
+        self.__pattern = pattern
+        self.__converter = converter
+        self.__flags = flags
+        self.__compiled_pattern = compile(pattern, flags)
+
+    @property
+    def converter(self) -> Callable[[str], T] | None:
+        return self.__converter
+
+    @property
+    def flags(self) -> RegexFlag | int:
+        return self.__flags
+
+    @property
+    def ignore(self) -> bool:
+        return self.__ignore
+
+    @property
+    def pattern(self) -> str:
+        return self.__pattern
 
     def __or__(self, other: Any) -> RuleGroup:
         if isinstance(other, Rule):
@@ -63,14 +93,14 @@ class Rule(Generic[T]):
         and the length of the matched substring. If it doesn't, returns
         the `NotApplied` sentinel.
         """
-        if m := self._pattern.match(target):
+        if m := self.__compiled_pattern.match(target):
             end = m.span()[1]
             matched = m[0]
-            conv = self.converter
-            if isinstance(conv, bool):
-                if conv:
-                    return matched, end
+            conv = self.__converter
+            if self.__ignore:
                 return IGNORED, end
+            if conv is None:
+                return matched, end
             return conv(matched), end
         return NOT_APPLIED
 
@@ -81,6 +111,7 @@ class RuleGroup:
     Used for storing multiple Rules in one object. Can be constructed
     with a tuple of rules or by ORing (`|`) two or more rules.
     """
+
     rules: tuple[Rule[Any], ...]
 
     def __iter__(self) -> Iterator[Rule[Any]]:
