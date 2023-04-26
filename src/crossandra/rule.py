@@ -95,10 +95,10 @@ class Rule(Generic[T]):
         """
         if m := self.__compiled_pattern.match(target):
             end = m.span()[1]
-            matched = m[0]
-            conv = self.__converter
             if self.__ignore:
                 return IGNORED, end
+            matched = m[0]
+            conv = self.__converter
             if conv is None:
                 return matched, end
             return conv(matched), end
