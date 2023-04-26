@@ -30,7 +30,7 @@ C_NAME: Rule[str] = Rule(r"[_A-Za-z][_A-Za-z\d]*")
 A C-like variable name (e.g. `crossandra_rocks`). Can consist of English
 letters, digits, and underscores. Cannot start with a digit.
 """
-NEWLINE: Rule[str] = Rule(r"\n")
+NEWLINE: Rule[str] = Rule(r"\r?\n")
 r"""
 A newline character (`\n`, `\r\n` is converted to `\n` before
 tokenization).

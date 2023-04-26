@@ -58,6 +58,7 @@ class Crossandra:
     A Crossandra tokenizer. Takes the following arguments:
     - `token_source`: an enum containing all possible tokens (defaults
       to an empty enum)
+    - `convert_crlf`: whether `\\r\\n` should be converted to `\\n` before tokenization
     - `ignored_characters`: a string of characters to ignore (defaults to "")
     - `ignore_whitespace`: whether spaces, tabs, newlines etc. should
       be ignored (defaults to False)
@@ -71,6 +72,7 @@ class Crossandra:
 
     __slots__ = (
         "__rules",
+        "__conv_crlf",
         "__fast",
         "__ignored",
         "__keys",
@@ -84,10 +86,11 @@ class Crossandra:
         self,
         token_source: type[Enum] = Empty,
         *,
+        convert_crlf: bool = True,
         ignore_whitespace: bool = False,
         ignored_characters: str = "",
-        suppress_unknown: bool = False,
         rules: list[Rule[Any] | RuleGroup] | None = None,
+        suppress_unknown: bool = False,
     ) -> None:
         self.__rules: list[Rule[Any]] = []
         for r in rules or []:
@@ -95,6 +98,7 @@ class Crossandra:
                 self.__rules.extend(r)
             else:
                 self.__rules.append(r)
+        self.__conv_crlf = convert_crlf
         self.__tokens = invert_enum(token_source)
         self.__fast = all(len(k) == 1 for k in self.__tokens) and not rules
         self.__ignored = " \f\t\v\r\n" * ignore_whitespace + ignored_characters
@@ -107,7 +111,10 @@ class Crossandra:
         """
         Tokenizes the input string. Returns a list of tokens.
         """
-        code = code.replace("\r\n", "\n") + " " * (" " in self.__ignored)
+        if self.__conv_crlf:
+            code = code.replace("\r\n", "\n")
+        if " " in self.__ignored:
+            code += " "
 
         if self.__fast:
             toks = self.__tokenize_fast(code)
