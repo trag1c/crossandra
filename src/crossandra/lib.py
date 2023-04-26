@@ -59,8 +59,9 @@ class Crossandra:
     - `token_source`: an enum containing all possible tokens (defaults
       to an empty enum)
     - `ignore_whitespace`: whether spaces, tabs, newlines etc. should
-      be ignored
-    - `suppress_unknown`: whether unknown tokens should throw an error
+      be ignored (defaults to False)
+    - `suppress_unknown`: whether unknown token errors should be suppressed
+      (defaults to False)
     - `rules`: a list of additional rules to use
 
     The enum takes priority over the rule list.\\
