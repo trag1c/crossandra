@@ -188,7 +188,7 @@ def test_C_NAME(string, result):
     ["string", "result"],
     [
         ("\n", ("\n", 1)),  # LF NEWLINE
-        ("\r\n", NOT_APPLIED),  # CRLF NEWLINE
+        ("\r\n", ("\r\n", 2)),  # CRLF NEWLINE
         ("\r", NOT_APPLIED),  # CR NEWLINE
         ("\\n", NOT_APPLIED),  # ESC LF NEWLINE
         ("", NOT_APPLIED),  # EMPTY
