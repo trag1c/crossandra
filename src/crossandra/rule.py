@@ -81,10 +81,10 @@ class Rule(Generic[T]):
         """
         Checks if `target` matches the Rule's pattern. If it does,
         returns a tuple with
-        - if the Rule's converter is `False`: the `Ignored` sentinel
-        - if the Rule's converter is `True`: the matched substring
+        - if ignore=True: the `Ignored` sentinel
+        - if converter=None: the matched substring
         - otherwise: the result of calling the Rule's converter on the
-            matched substring
+          matched substring
 
         and the length of the matched substring. If it doesn't, returns
         the `NotApplied` sentinel.
