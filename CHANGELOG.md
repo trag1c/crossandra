@@ -23,8 +23,11 @@ and this project adheres to
 - `CrossandraTokenizationError` and `CrossandraValueError` are now raised
   instead of `CrossandraError` (it can be used to catch both exceptions)
 - Improved documentation
+- `Rule` objects are now comparable, hashable, and immutable
 - Slightly improved performance when tokenizing with empty enums (up to 10%
   faster)
+- The `IGNORED`/`NOT_APPLIED` constants (and their types) can now be imported
+  directly
 - The pre-tokenization CRLF to LF conversion can now be disabled through the
   `Crossandra(convert_crlf=...)` parameter
 - Updated `Rule` signature:
