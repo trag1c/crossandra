@@ -55,6 +55,14 @@ class Rule(Generic[T]):
         self.__flags = flags
         self.__compiled_pattern = compile(pattern, flags)
 
+    def __hash__(self) -> int:
+        return hash((self.pattern, self.ignore or self.converter, self.flags))
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, Rule):
+            return hash(self) == hash(other)
+        return NotImplemented
+
     @property
     def converter(self) -> Callable[[str], T] | None:
         return self.__converter
