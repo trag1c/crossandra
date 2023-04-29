@@ -82,8 +82,7 @@ class Rule(Generic[T]):
         returns a tuple with
         - if ignore=True: the `Ignored` sentinel
         - if converter=None: the matched substring
-        - otherwise: the result of calling the Rule's converter on the
-          matched substring
+        - otherwise: the result of calling the Rule's converter on the matched substring
 
         and the length of the matched substring. If it doesn't, returns
         the `NotApplied` sentinel.
@@ -104,7 +103,7 @@ class Rule(Generic[T]):
 class RuleGroup:
     """
     Used for storing multiple Rules in one object. Can be constructed
-    with a tuple of rules or by ORing (`|`) two or more rules.
+    by passing in a tuple of rules or by ORing (`|`) two or more rules.
     """
 
     rules: tuple[Rule[Any], ...]
