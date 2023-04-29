@@ -26,10 +26,9 @@ class Rule(Generic[T]):
     Used for defining custom rules. `pattern` is a regex pattern to
     match (`flags` can be supplied).
 
-    When `converter` is a callable, it will be called with the matched
-    substring as the argument.
-    When `True`, it will directly return the matched substring.
-    When `False`, the matched substring will be excluded from output.
+    A `converter` can be supplied and will be called with the matched substring as the
+    argument (defaults to None, returning the matched string directly).
+    When `ignore` is True, the matched substring will be excluded from output.
     """
 
     __slots__ = (
