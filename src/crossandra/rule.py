@@ -39,10 +39,6 @@ class Rule(Generic[T]):
         "__ignore",
         "__pattern",
     )
-    _pattern: str
-    _converter: Callable[[str], T] | None
-    _ignore: bool
-    _flags: RegexFlag | int
 
     def __init__(
         self,
