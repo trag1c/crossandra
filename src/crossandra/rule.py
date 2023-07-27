@@ -59,7 +59,7 @@ class Rule(Generic[T]):
     def __hash__(self) -> int:
         return hash((self.pattern, self.ignore or self.converter, self.flags))
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         if isinstance(other, Rule):
             return hash(self) == hash(other)
         return NotImplemented
@@ -80,7 +80,7 @@ class Rule(Generic[T]):
     def pattern(self) -> str:
         return self.__pattern
 
-    def __or__(self, other: Any) -> RuleGroup:
+    def __or__(self, other: object) -> RuleGroup:
         if isinstance(other, Rule):
             return RuleGroup((self, other))
         return NotImplemented
