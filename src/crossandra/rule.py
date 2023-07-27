@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass
-from re import RegexFlag, compile
+from re import Pattern, RegexFlag, compile
 from typing import Any, Generic, TypeVar
 
 from .exceptions import CrossandraValueError
@@ -41,7 +41,7 @@ class Rule(Generic[T]):
 
     def __init__(
         self,
-        pattern: str,
+        pattern: Pattern[str] | str,
         converter: Callable[[str], T] | None = None,
         *,
         flags: RegexFlag | int = 0,
@@ -50,10 +50,11 @@ class Rule(Generic[T]):
         if ignore and converter:
             raise CrossandraValueError("cannot use a converter when ignore=True")
         self.__ignore = ignore
-        self.__pattern = pattern
+        pattern_str = pattern.pattern if isinstance(pattern, Pattern) else pattern
+        self.__pattern = pattern_str
+        self.__compiled_pattern = compile(pattern_str, flags)
         self.__converter = converter
         self.__flags = flags
-        self.__compiled_pattern = compile(pattern, flags)
 
     def __hash__(self) -> int:
         return hash((self.pattern, self.ignore or self.converter, self.flags))
