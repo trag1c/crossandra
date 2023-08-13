@@ -1,13 +1,15 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
 from enum import Enum
-from typing import Any, Dict, Union, cast
+from typing import TYPE_CHECKING, Any, Dict, Union, cast
 
 from result import Err, Ok, Result
 
 from .exceptions import CrossandraTokenizationError
 from .rule import Ignored, NotApplied, Rule, RuleGroup
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 def invert_enum(enum: type[Enum]) -> dict[str, Enum]:

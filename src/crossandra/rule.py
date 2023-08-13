@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from re import Pattern, RegexFlag, compile
-from typing import Any, Generic, TypeVar
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from .exceptions import CrossandraValueError
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Iterator
 
 
 class Ignored:
