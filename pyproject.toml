@@ -21,6 +21,42 @@ archs = ["x86_64", "universal2"]
 
 [tool.ruff]
 target-version = "py38"
+select = [
+    "A",
+    "ANN",
+    "ARG",
+    "B",
+    "BLE",
+    "C",
+    "E",
+    "ERA",
+    "F",
+    "FBT",
+    "I",
+    "ISC",
+    "N",
+    "PIE",
+    "Q",
+    "RET",
+    "RSE",
+    "RUF",
+    "SIM",
+    "SLF",
+    "TCH",
+    "TRY",
+    "UP",
+    "W",
+]
+ignore = [
+    "ANN101",
+    "ANN102",
+    "ANN401",
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    "TRY003",
+]
+exclude = ["tests"]
 
 [tool.mypy]
 exclude = "tests"
