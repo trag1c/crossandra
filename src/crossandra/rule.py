@@ -83,6 +83,8 @@ class Rule(Generic[T]):
     def __or__(self, other: object) -> RuleGroup:
         if isinstance(other, Rule):
             return RuleGroup((self, other))
+        if isinstance(other, RuleGroup):
+            return RuleGroup((self, *other.rules))
         return NotImplemented
 
     def apply(self, target: str) -> tuple[T | str | Ignored, int] | NotApplied:
