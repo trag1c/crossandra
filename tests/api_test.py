@@ -6,11 +6,11 @@ from enum import Enum
 import pytest
 from crossandra import (
     Crossandra,
-    common,
     CrossandraTokenizationError,
     CrossandraValueError,
     Rule,
-    RuleGroup
+    RuleGroup,
+    common,
 )
 from crossandra.rule import IGNORED, NOT_APPLIED
 
