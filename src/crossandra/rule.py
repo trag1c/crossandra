@@ -122,7 +122,7 @@ class RuleGroup:
     def __iter__(self) -> Iterator[Rule[Any]]:
         yield from self.rules
 
-    def __or__(self, other: Any) -> RuleGroup:
+    def __or__(self, other: object) -> RuleGroup:
         if isinstance(other, RuleGroup):
             return RuleGroup((*self.rules, *other.rules))
         if isinstance(other, Rule):
