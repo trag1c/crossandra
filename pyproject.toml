@@ -23,7 +23,7 @@ archs = ["x86_64", "universal2"]
 target-version = "py38"
 
 [tool.mypy]
-exclude = ["tests/*"]
+exclude = "tests"
 
 [build-system]
 requires = ["setuptools", "mypy", "result ~= 0.9.0"]
