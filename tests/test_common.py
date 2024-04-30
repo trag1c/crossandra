@@ -1,8 +1,26 @@
+from __future__ import annotations
+
+from typing import Tuple, Union
+
 import pytest
 
-from crossandra.common import *
-from crossandra.rule import *
-
+from crossandra.common import (
+    C_NAME,
+    CHAR,
+    DECIMAL,
+    DIGIT,
+    DOUBLE_QUOTED_STRING,
+    FLOAT,
+    HEXDIGIT,
+    INT,
+    LETTER,
+    NEWLINE,
+    SIGNED_FLOAT,
+    SIGNED_INT,
+    SINGLE_QUOTED_STRING,
+    WORD,
+)
+from crossandra.rule import NOT_APPLIED, Ignored, NotApplied
 
 # ESC = ESCAPED
 # UC = UPPERCASE
@@ -11,9 +29,11 @@ from crossandra.rule import *
 # NEG = NEGATIVE
 # USCORE = UNDERSCORE
 
+RuleResult = Union[Tuple[Union[Ignored, str], int], NotApplied]
+
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("'test'", ("'test'", 6)),  # CLASSIC
         ("'''", ("''", 2)),  # STRING CONTAINING QUOTE
@@ -25,12 +45,12 @@ from crossandra.rule import *
         ("''", ("''", 2)),  # EMPTY
     ],
 )
-def test_SINGLE_QUOTED_STRING(string, result):
+def test_single_quoted_string(string: str, result: RuleResult) -> None:
     assert SINGLE_QUOTED_STRING.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ('"test"', ('"test"', 6)),  # CLASSIC
         ('"""', ('""', 2)),  # STRING CONTAINING QUOTE
@@ -42,7 +62,7 @@ def test_SINGLE_QUOTED_STRING(string, result):
         ('""', ('""', 2)),  # EMPTY
     ],
 )
-def test_DOUBLE_QUOTED_STRING(string, result):
+def test_double_quoted_string(string: str, result: RuleResult) -> None:
     assert DOUBLE_QUOTED_STRING.apply(string) == result
 
 
@@ -50,7 +70,7 @@ def test_DOUBLE_QUOTED_STRING(string, result):
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("'t'", ("'t'", 3)),  # CLASSIC
         ("'''", NOT_APPLIED),  # SINGLE QUOTE CHAR
@@ -62,12 +82,12 @@ def test_DOUBLE_QUOTED_STRING(string, result):
         ("''", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_CHAR(string, result):
+def test_char(string: str, result: RuleResult) -> None:
     assert CHAR.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("A", ("A", 1)),  # UC LETTER
         ("a", ("a", 1)),  # LC LETTER
@@ -77,23 +97,23 @@ def test_CHAR(string, result):
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_LETTER(string, result):
+def test_letter(string: str, result: RuleResult) -> None:
     assert LETTER.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("word", ("word", 4)),  # CLASSIC
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_WORD(string, result):
+def test_word(string: str, result: RuleResult) -> None:
     assert WORD.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("0", (0, 1)),  # CLASSIC
         ("/", NOT_APPLIED),  # CHAR BEFORE DIGITS IN ASCII TABLE
@@ -101,12 +121,12 @@ def test_WORD(string, result):
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_DIGIT(string, result):
+def test_digit(string: str, result: RuleResult) -> None:
     assert DIGIT.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("69", (69, 2)),  # CLASSIC
         ("069", (69, 3)),  # LEADING ZERO
@@ -115,12 +135,12 @@ def test_DIGIT(string, result):
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_INT(string, result):
+def test_int(string: str, result: RuleResult) -> None:
     assert INT.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("+69", (69, 3)),  # POS INT
         ("-69", (-69, 3)),  # NEG INT
@@ -128,12 +148,12 @@ def test_INT(string, result):
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_SIGNED_INT(string, result):
+def test_signed_int(string: str, result: RuleResult) -> None:
     assert SIGNED_INT.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("3.14", (3.14, 4)),  # CLASSIC
         ("3.0", (3.0, 3)),  # POST-COMMA TRAILING ZERO
@@ -144,12 +164,12 @@ def test_SIGNED_INT(string, result):
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_DECIMAL(string, result):
+def test_decimal(string: str, result: RuleResult) -> None:
     assert DECIMAL.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("3", (3, 1)),  # CLASSIC: DIGIT
         ("D", (13, 1)),  # CLASSIC: UC LETTER
@@ -158,12 +178,12 @@ def test_DECIMAL(string, result):
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_HEXDIGIT(string, result):
+def test_hexdigit(string: str, result: RuleResult) -> None:
     assert HEXDIGIT.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("W", ("W", 1)),  # ONE LETTER
         ("_", ("_", 1)),  # ONE USCORE
@@ -180,12 +200,12 @@ def test_HEXDIGIT(string, result):
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_C_NAME(string, result):
+def test_c_name(string: str, result: RuleResult) -> None:
     assert C_NAME.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("\n", ("\n", 1)),  # LF NEWLINE
         ("\r\n", ("\r\n", 2)),  # CRLF NEWLINE
@@ -194,12 +214,12 @@ def test_C_NAME(string, result):
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_NEWLINE(string, result):
+def test_newline(string: str, result: RuleResult) -> None:
     assert NEWLINE.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("1e3", (1_000.0, 3)),  # INT, LC E, INT
         ("1e+3", (1_000.0, 4)),  # INT, E, POS INT
@@ -211,12 +231,12 @@ def test_NEWLINE(string, result):
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_FLOAT(string, result):
+def test_float(string: str, result: RuleResult) -> None:
     assert FLOAT.apply(string) == result
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("+1e3", (1_000.0, 4)),  # POS INT, E, INT
         ("-1e3", (-1_000.0, 4)),  # NEG INT, E, INT
@@ -229,7 +249,7 @@ def test_FLOAT(string, result):
         ("", NOT_APPLIED),  # EMPTY
     ],
 )
-def test_SIGNED_FLOAT(string, result):
+def test_signed_float(string: str, result: RuleResult) -> None:
     assert SIGNED_FLOAT.apply(string) == result
 
 
