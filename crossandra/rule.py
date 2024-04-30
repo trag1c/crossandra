@@ -50,7 +50,8 @@ class Rule(Generic[T]):
         ignore: bool = False,
     ) -> None:
         if ignore and converter:
-            raise CrossandraValueError("cannot use a converter when ignore=True")
+            msg = "cannot use a converter when ignore=True"
+            raise CrossandraValueError(msg)
         self.__ignore = ignore
         pattern_str = pattern.pattern if isinstance(pattern, Pattern) else pattern
         self.__pattern = pattern_str

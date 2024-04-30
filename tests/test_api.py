@@ -25,13 +25,15 @@ if TYPE_CHECKING:
     [
         (True, ["a", "\n", "b", "\n", "c"]),
         (False, ["a", "\n", "b", "\r\n", "c"]),
-    ]
+    ],
 )
 def test_convert_crlf(convert_crlf: bool, result: list[str]) -> None:
-    assert Crossandra(
-        rules=[common.LETTER, common.NEWLINE],
-        convert_crlf=convert_crlf
-    ).tokenize("a\nb\r\nc") == result
+    assert (
+        Crossandra(
+            rules=[common.LETTER, common.NEWLINE], convert_crlf=convert_crlf
+        ).tokenize("a\nb\r\nc")
+        == result
+    )
 
 
 @pytest.mark.parametrize(
@@ -43,13 +45,15 @@ def test_convert_crlf(convert_crlf: bool, result: list[str]) -> None:
         ("abdf", ["e"]),
         ("aaaaa", list("bbdeff")),
         ("fg", list("abbade")),
-    ]
+    ],
 )
 def test_ignored_characters(ignored: str, result: list[str]) -> None:
-    assert Crossandra(
-        rules=[common.LETTER],
-        ignored_characters=ignored
-    ).tokenize("abbadeff") == result
+    assert (
+        Crossandra(rules=[common.LETTER], ignored_characters=ignored).tokenize(
+            "abbadeff"
+        )
+        == result
+    )
 
 
 def test_ignore_whitespace_error() -> None:
@@ -58,10 +62,9 @@ def test_ignore_whitespace_error() -> None:
 
 
 def test_ignore_whitespace() -> None:
-    assert Crossandra(
-        rules=[common.LETTER],
-        ignore_whitespace=True
-    ).tokenize("a b\nc\rde") == ["a", "b", "c", "d", "e"]
+    assert Crossandra(rules=[common.LETTER], ignore_whitespace=True).tokenize(
+        "a b\nc\rde"
+    ) == ["a", "b", "c", "d", "e"]
 
 
 def test_suppress_unknown_error() -> None:
@@ -80,15 +83,15 @@ def test_suppress_unknown_error() -> None:
         ("hi.123-world", ["hi", "world"]),
         (
             "Mr. John Smith Jr. was born in the U.S.A.",
-            "Mr John Smith Jr was born in the U S A".split()
-        )
-    ]
+            "Mr John Smith Jr was born in the U S A".split(),
+        ),
+    ],
 )
 def test_suppress_unknown(string: str, result: list[str]) -> None:
-    assert Crossandra(
-        suppress_unknown=True,
-        rules=[common.WORD]
-    ).tokenize(string) == result
+    assert (
+        Crossandra(suppress_unknown=True, rules=[common.WORD]).tokenize(string)
+        == result
+    )
 
 
 class BrainfuckToken(Enum):
@@ -110,6 +113,7 @@ class ArithmeticToken(Enum):
     POW = "**"
     MOD = "%"
 
+
 AT = ArithmeticToken
 
 
@@ -126,15 +130,14 @@ def test_not_fast_rules() -> None:
 
 
 def test_tokenize_fast() -> None:
-    assert Crossandra(
-        BrainfuckToken,
-        suppress_unknown=True
-    ).tokenize("cat program: ,[.,]") == [
+    assert Crossandra(BrainfuckToken, suppress_unknown=True).tokenize(
+        "cat program: ,[.,]"
+    ) == [
         BrainfuckToken.READ,
         BrainfuckToken.BEGIN_LOOP,
         BrainfuckToken.WRITE,
         BrainfuckToken.READ,
-        BrainfuckToken.END_LOOP
+        BrainfuckToken.END_LOOP,
     ]
 
 
@@ -146,15 +149,16 @@ def test_tokenize_fast() -> None:
         ("-5", [AT.SUB, 5]),
         ("100 + -5", [100, AT.ADD, AT.SUB, 5]),
         ("4 - 2 ** 5 / 2", [4, AT.SUB, 2, AT.POW, 5, AT.DIV, 2]),
-        ("10 % 3", [10, AT.MOD, 3])
-    ]
+        ("10 % 3", [10, AT.MOD, 3]),
+    ],
 )
 def test_tokenize(expression: str, result: list[Enum | Any]) -> None:
-    assert Crossandra(
-        ArithmeticToken,
-        rules=[common.INT],
-        suppress_unknown=True
-    ).tokenize(expression) == result
+    assert (
+        Crossandra(ArithmeticToken, rules=[common.INT], suppress_unknown=True).tokenize(
+            expression
+        )
+        == result
+    )
 
 
 def test_rule_conflict() -> None:
@@ -180,11 +184,7 @@ def test_rule() -> None:
 
 @pytest.mark.parametrize(
     ("flags", "result"),
-    [
-        (0, NOT_APPLIED),
-        (re.I, ("A", 1)),
-        (re.I | re.S, ("A\nb", 3))
-    ]
+    [(0, NOT_APPLIED), (re.I, ("A", 1)), (re.I | re.S, ("A\nb", 3))],
 )
 def test_flags(flags: re.RegexFlag, result: RuleResult) -> None:
     assert Rule(r"a.?b?", flags=flags).apply("A\nb") == result

@@ -36,15 +36,11 @@ def generate_tree(inp: Iterable[tuple[str, Enum]]) -> Tree:
     for k, v in inp:
         curr = result
         for c in k[:-1]:
-            _curr = curr.setdefault(c, {})
-            assert isinstance(_curr, dict)
-            curr = _curr
-        k = k[-1]
-        if dct := curr.get(k):
-            assert isinstance(dct, dict)
+            curr = cast(Tree, curr.setdefault(c, {}))
+        if dct := cast(Tree, curr.get(k[-1])):
             dct[""] = v
         else:
-            curr[k] = v
+            curr[k[-1]] = v
     return result
 
 
@@ -70,12 +66,12 @@ class Crossandra:
     """
 
     __slots__ = (
-        "__rules",
         "__conv_crlf",
         "__fast",
         "__ignored",
         "__keys",
         "__maxlen",
+        "__rules",
         "__suppress",
         "__tokens",
         "__tree",
@@ -119,7 +115,8 @@ class Crossandra:
             toks = self.__tokenize_fast(code)
             if toks.is_ok():
                 return toks.unwrap()
-            raise CrossandraTokenizationError(f"invalid token: {toks.unwrap_err()!r}")
+            msg = f"invalid token: {toks.unwrap_err()!r}"
+            raise CrossandraTokenizationError(msg)
 
         tokens: list[Enum | Any] = []
         maxlen = self.__maxlen
@@ -142,9 +139,8 @@ class Crossandra:
                     break
             else:
                 if not self.__suppress:
-                    raise CrossandraTokenizationError(
-                        f"invalid token: {token.unwrap_err()!r}"
-                    )
+                    msg = f"invalid token: {token.unwrap_err()!r}"
+                    raise CrossandraTokenizationError(msg)
                 code = code[1:]
 
         return tokens
@@ -170,9 +166,7 @@ class Crossandra:
             if c is None:
                 if "" not in tree:
                     break
-                c = tree[""]
-                assert isinstance(c, Enum)
-                return Ok(c), i
+                return Ok(cast(Enum, tree[""])), i
             if isinstance(c, Enum):
                 return Ok(c), i + 1
             tree = c

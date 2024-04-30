@@ -1,4 +1,5 @@
 """A collection of commonly used Rules."""
+
 from .rule import Rule, RuleGroup
 
 _int = r"[0-9](?:[0-9_]*[0-9])?"

@@ -4,7 +4,22 @@ from typing import Tuple, Union
 
 import pytest
 
-from crossandra.common import C_NAME, CHAR, DECIMAL, DIGIT, DOUBLE_QUOTED_STRING, FLOAT, HEXDIGIT, INT, LETTER, NEWLINE, SIGNED_FLOAT, SIGNED_INT, SINGLE_QUOTED_STRING, WORD
+from crossandra.common import (
+    C_NAME,
+    CHAR,
+    DECIMAL,
+    DIGIT,
+    DOUBLE_QUOTED_STRING,
+    FLOAT,
+    HEXDIGIT,
+    INT,
+    LETTER,
+    NEWLINE,
+    SIGNED_FLOAT,
+    SIGNED_INT,
+    SINGLE_QUOTED_STRING,
+    WORD,
+)
 from crossandra.rule import NOT_APPLIED, Ignored, NotApplied
 
 # ESC = ESCAPED
