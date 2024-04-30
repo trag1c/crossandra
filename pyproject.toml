@@ -29,9 +29,6 @@ ignore = ["COM", "D", "FIX", "ANN1", "ANN401", "ISC001", "ERA"]
 "crossandra/*" = ["PT"]
 "tests/*" = ["INP", "FBT", "PLC2701", "S101", "SLF001"]
 
-[tool.mypy]
-exclude = "tests"
-
 [build-system]
 requires = ["setuptools", "mypy", "result ~= 0.9.0"]
 build-backend = "setuptools.build_meta"

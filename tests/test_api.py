@@ -114,15 +114,15 @@ AT = ArithmeticToken
 
 
 def test_fast() -> None:
-    assert Crossandra(BrainfuckToken)._Crossandra__fast
+    assert Crossandra(BrainfuckToken)._Crossandra__fast  # type: ignore[attr-defined]
 
 
 def test_not_fast_long_tokens() -> None:
-    assert not Crossandra(ArithmeticToken)._Crossandra__fast
+    assert not Crossandra(ArithmeticToken)._Crossandra__fast  # type: ignore[attr-defined]
 
 
 def test_not_fast_rules() -> None:
-    assert not Crossandra(BrainfuckToken, rules=[common.NEWLINE])._Crossandra__fast
+    assert not Crossandra(BrainfuckToken, rules=[common.NEWLINE])._Crossandra__fast  # type: ignore[attr-defined]
 
 
 def test_tokenize_fast() -> None:
@@ -191,7 +191,10 @@ def test_flags(flags: re.RegexFlag, result: RuleResult) -> None:
 
 
 def test_rule_group() -> None:
-    a, b = Rule("a"), Rule("b")
+    # type params required until Python 3.13's PEP 696 is here :')
+    a, b = Rule[str]("a"), Rule[str]("b")
+
     x, y = a | b
     p, r = RuleGroup((a, b))
+
     assert (a, b) == (x, y) == (p, r)
