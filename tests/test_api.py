@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import re
 from enum import Enum
+from typing import TYPE_CHECKING, Any
 
 import pytest
+
 from crossandra import (
     Crossandra,
     CrossandraTokenizationError,
@@ -14,15 +16,18 @@ from crossandra import (
 )
 from crossandra.rule import IGNORED, NOT_APPLIED
 
+if TYPE_CHECKING:
+    from test_common import RuleResult
+
 
 @pytest.mark.parametrize(
-    ["convert_crlf", "result"],
+    ("convert_crlf", "result"),
     [
         (True, ["a", "\n", "b", "\n", "c"]),
         (False, ["a", "\n", "b", "\r\n", "c"]),
     ]
 )
-def test_convert_crlf(convert_crlf, result):
+def test_convert_crlf(convert_crlf: bool, result: list[str]) -> None:
     assert Crossandra(
         rules=[common.LETTER, common.NEWLINE],
         convert_crlf=convert_crlf
@@ -30,7 +35,7 @@ def test_convert_crlf(convert_crlf, result):
 
 
 @pytest.mark.parametrize(
-    ["ignored", "result"],
+    ("ignored", "result"),
     [
         ("", list("abbadeff")),
         ("ae", list("bbdff")),
@@ -40,32 +45,32 @@ def test_convert_crlf(convert_crlf, result):
         ("fg", list("abbade")),
     ]
 )
-def test_ignored_characters(ignored, result):
+def test_ignored_characters(ignored: str, result: list[str]) -> None:
     assert Crossandra(
         rules=[common.LETTER],
         ignored_characters=ignored
     ).tokenize("abbadeff") == result
 
 
-def test_ignore_whitespace_error():
+def test_ignore_whitespace_error() -> None:
     with pytest.raises(CrossandraTokenizationError):
         Crossandra(rules=[common.LETTER]).tokenize("a b")
 
 
-def test_ignore_whitespace():
+def test_ignore_whitespace() -> None:
     assert Crossandra(
         rules=[common.LETTER],
         ignore_whitespace=True
     ).tokenize("a b\nc\rde") == ["a", "b", "c", "d", "e"]
 
 
-def test_suppress_unknown_error():
+def test_suppress_unknown_error() -> None:
     with pytest.raises(CrossandraTokenizationError):
         Crossandra().tokenize("a")
 
 
 @pytest.mark.parametrize(
-    ["string", "result"],
+    ("string", "result"),
     [
         ("1", []),
         ("hello there", ["hello", "there"]),
@@ -79,7 +84,7 @@ def test_suppress_unknown_error():
         )
     ]
 )
-def test_suppress_unknown(string, result):
+def test_suppress_unknown(string: str, result: list[str]) -> None:
     assert Crossandra(
         suppress_unknown=True,
         rules=[common.WORD]
@@ -108,19 +113,19 @@ class ArithmeticToken(Enum):
 AT = ArithmeticToken
 
 
-def test_fast():
-    assert Crossandra(BrainfuckToken)._Crossandra__fast  # type: ignore
+def test_fast() -> None:
+    assert Crossandra(BrainfuckToken)._Crossandra__fast
 
 
-def test_not_fast_long_tokens():
-    assert not Crossandra(ArithmeticToken)._Crossandra__fast  # type: ignore
+def test_not_fast_long_tokens() -> None:
+    assert not Crossandra(ArithmeticToken)._Crossandra__fast
 
 
-def test_not_fast_rules():
-    assert not Crossandra(BrainfuckToken, rules=[common.NEWLINE])._Crossandra__fast  # type: ignore
+def test_not_fast_rules() -> None:
+    assert not Crossandra(BrainfuckToken, rules=[common.NEWLINE])._Crossandra__fast
 
 
-def test_tokenize_fast():
+def test_tokenize_fast() -> None:
     assert Crossandra(
         BrainfuckToken,
         suppress_unknown=True
@@ -134,7 +139,7 @@ def test_tokenize_fast():
 
 
 @pytest.mark.parametrize(
-    ["expression", "result"],
+    ("expression", "result"),
     [
         ("2 * 2 + 3 - 7", [2, AT.MUL, 2, AT.ADD, 3, AT.SUB, 7]),
         ("2**3", [2, AT.POW, 3]),
@@ -144,7 +149,7 @@ def test_tokenize_fast():
         ("10 % 3", [10, AT.MOD, 3])
     ]
 )
-def test_tokenize(expression, result):
+def test_tokenize(expression: str, result: list[Enum | Any]) -> None:
     assert Crossandra(
         ArithmeticToken,
         rules=[common.INT],
@@ -152,40 +157,40 @@ def test_tokenize(expression, result):
     ).tokenize(expression) == result
 
 
-def test_rule_conflict():
+def test_rule_conflict() -> None:
     with pytest.raises(CrossandraValueError):
         Rule(r"", int, ignore=True)
 
 
-def test_rule_ignore():
+def test_rule_ignore() -> None:
     assert Rule(r"\d", ignore=True).apply("1") == (IGNORED, 1)
 
 
-def test_rule_not_applied():
+def test_rule_not_applied() -> None:
     assert Rule(r"\d").apply("x") is NOT_APPLIED
 
 
-def test_rule_converter():
+def test_rule_converter() -> None:
     assert Rule(r"\d", int).apply("1") == (1, 1)
 
 
-def test_rule():
+def test_rule() -> None:
     assert Rule(r"\d").apply("1") == ("1", 1)
 
 
 @pytest.mark.parametrize(
-    ["flags", "result"],
+    ("flags", "result"),
     [
         (0, NOT_APPLIED),
         (re.I, ("A", 1)),
         (re.I | re.S, ("A\nb", 3))
     ]
 )
-def test_flags(flags, result):
+def test_flags(flags: re.RegexFlag, result: RuleResult) -> None:
     assert Rule(r"a.?b?", flags=flags).apply("A\nb") == result
 
 
-def test_rule_group():
+def test_rule_group() -> None:
     a, b = Rule("a"), Rule("b")
     x, y = a | b
     p, r = RuleGroup((a, b))
