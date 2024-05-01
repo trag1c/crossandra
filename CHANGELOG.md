@@ -7,6 +7,19 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.1.0] - 2024-05-01
+
+This release should also include mypyc wheels for Python 3.12 on PyPI.
+
+### Added
+- `Rule` objects now accept `re.Pattern` for `pattern`
+- Improved typing for `Rule.__eq__`, `Rule.__or__`, and `RuleGroup.__or__`
+- `Rule` objects can now be unioned with `RuleGroups`
+
+### Fixed
+- The `common.NUMBER` and `common.SIGNED_NUMBER` rule groups now correctly
+  prioritize floats over integers
+
 ## [2.0.0] - 2023-04-29
 
 ### Added
@@ -112,3 +125,4 @@ Initial release 🎉
 [1.2.4]: https://github.com/trag1c/crossandra/compare/1.2.3...1.2.4
 [1.3.0]: https://github.com/trag1c/crossandra/compare/1.2.4...1.3.0
 [2.0.0]: https://github.com/trag1c/crossandra/compare/1.3.0...2.0.0
+[2.1.0]: https://github.com/trag1c/crossandra/compare/2.0.0...2.1.0
