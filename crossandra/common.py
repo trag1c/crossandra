@@ -58,7 +58,7 @@ SIGNED_FLOAT: Rule[float] = Rule(rf"[+\-](?:{_float})", float_)
 
 STRING: RuleGroup = SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING
 """A string enclosed in either single or double quotes."""
-NUMBER: RuleGroup = INT | FLOAT
+NUMBER: RuleGroup = FLOAT | INT
 """A number (either an integer or a floating point value)."""
-SIGNED_NUMBER: RuleGroup = SIGNED_INT | SIGNED_FLOAT
+SIGNED_NUMBER: RuleGroup = SIGNED_FLOAT | SIGNED_INT
 """A signed number (either an integer or a floating point value)."""

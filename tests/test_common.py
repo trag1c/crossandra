@@ -15,11 +15,15 @@ from crossandra.common import (
     INT,
     LETTER,
     NEWLINE,
+    NUMBER,
     SIGNED_FLOAT,
     SIGNED_INT,
+    SIGNED_NUMBER,
     SINGLE_QUOTED_STRING,
+    STRING,
     WORD,
 )
+from crossandra.lib import Crossandra
 from crossandra.rule import NOT_APPLIED, Ignored, NotApplied
 
 # ESC = ESCAPED
@@ -66,7 +70,8 @@ def test_double_quoted_string(string: str, result: RuleResult) -> None:
     assert DOUBLE_QUOTED_STRING.apply(string) == result
 
 
-# test_STRING <=> test_SINGLE_QUOTED_STRING and test_DOUBLE_QUOTED_STRING
+def test_string() -> None:
+    assert Crossandra(rules=[STRING]).tokenize("'test'\"test\"") == ["'test'", '"test"']
 
 
 @pytest.mark.parametrize(
@@ -253,6 +258,9 @@ def test_signed_float(string: str, result: RuleResult) -> None:
     assert SIGNED_FLOAT.apply(string) == result
 
 
-# test_NUMBER <=> test_INT and test_FLOAT
+def test_number() -> None:
+    assert Crossandra(rules=[NUMBER]).tokenize("1.0") == [1.0]
 
-# test_SIGNED_NUMBER <=> test_SIGNED_INT and test_SIGNED_FLOAT
+
+def test_signed_number() -> None:
+    assert Crossandra(rules=[SIGNED_NUMBER]).tokenize("-1.0") == [-1.0]
