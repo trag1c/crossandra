@@ -249,3 +249,34 @@ def test_number() -> None:
 
 def test_signed_number() -> None:
     assert Crossandra(rules=[common.SIGNED_NUMBER]).tokenize("-1.0") == [-1.0]
+
+
+@pytest.mark.parametrize(
+    ("string", "result"),
+    [("1", [1]), ("-1", [-1]), ("+1", [1])],
+)
+def test_any_int(string: str, result: list[int]) -> None:
+    assert Crossandra(rules=[common.ANY_INT]).tokenize(string) == result
+
+
+@pytest.mark.parametrize(
+    ("string", "result"),
+    [("1.0", [1.0]), ("-1.0", [-1.0]), ("+1.0", [1.0])],
+)
+def test_any_float(string: str, result: list[float]) -> None:
+    assert Crossandra(rules=[common.ANY_FLOAT]).tokenize(string) == result
+
+
+@pytest.mark.parametrize(
+    ("string", "result"),
+    [
+        ("1", [1]),
+        ("-1", [-1]),
+        ("+1", [1]),
+        ("1.05", [1.05]),
+        ("-1.05", [-1.05]),
+        ("+1.05", [1.05]),
+    ],
+)
+def test_any_number(string: str, result: list[int | float]) -> None:
+    assert Crossandra(rules=[common.ANY_NUMBER]).tokenize(string) == result
