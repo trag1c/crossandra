@@ -62,3 +62,10 @@ NUMBER: RuleGroup = FLOAT | INT
 """A number (either an integer or a floating point value)."""
 SIGNED_NUMBER: RuleGroup = SIGNED_FLOAT | SIGNED_INT
 """A signed number (either an integer or a floating point value)."""
+
+ANY_INT: RuleGroup = INT | SIGNED_INT
+"""Any integer value (optional sign)."""
+ANY_FLOAT: RuleGroup = FLOAT | SIGNED_FLOAT
+"""Any floating point value (optional sign)."""
+ANY_NUMBER: RuleGroup = NUMBER | SIGNED_NUMBER
+"""Any number (optional sign)."""
