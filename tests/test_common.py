@@ -4,25 +4,7 @@ from typing import Tuple, Union
 
 import pytest
 
-from crossandra.common import (
-    C_NAME,
-    CHAR,
-    DECIMAL,
-    DIGIT,
-    DOUBLE_QUOTED_STRING,
-    FLOAT,
-    HEXDIGIT,
-    INT,
-    LETTER,
-    NEWLINE,
-    NUMBER,
-    SIGNED_FLOAT,
-    SIGNED_INT,
-    SIGNED_NUMBER,
-    SINGLE_QUOTED_STRING,
-    STRING,
-    WORD,
-)
+from crossandra import common
 from crossandra.lib import Crossandra
 from crossandra.rule import NOT_APPLIED, Ignored, NotApplied
 
@@ -50,7 +32,7 @@ RuleResult = Union[Tuple[Union[Ignored, str], int], NotApplied]
     ],
 )
 def test_single_quoted_string(string: str, result: RuleResult) -> None:
-    assert SINGLE_QUOTED_STRING.apply(string) == result
+    assert common.SINGLE_QUOTED_STRING.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -67,11 +49,14 @@ def test_single_quoted_string(string: str, result: RuleResult) -> None:
     ],
 )
 def test_double_quoted_string(string: str, result: RuleResult) -> None:
-    assert DOUBLE_QUOTED_STRING.apply(string) == result
+    assert common.DOUBLE_QUOTED_STRING.apply(string) == result
 
 
 def test_string() -> None:
-    assert Crossandra(rules=[STRING]).tokenize("'test'\"test\"") == ["'test'", '"test"']
+    assert Crossandra(rules=[common.STRING]).tokenize("'test'\"test\"") == [
+        "'test'",
+        '"test"',
+    ]
 
 
 @pytest.mark.parametrize(
@@ -88,7 +73,7 @@ def test_string() -> None:
     ],
 )
 def test_char(string: str, result: RuleResult) -> None:
-    assert CHAR.apply(string) == result
+    assert common.CHAR.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -103,7 +88,7 @@ def test_char(string: str, result: RuleResult) -> None:
     ],
 )
 def test_letter(string: str, result: RuleResult) -> None:
-    assert LETTER.apply(string) == result
+    assert common.LETTER.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -114,7 +99,7 @@ def test_letter(string: str, result: RuleResult) -> None:
     ],
 )
 def test_word(string: str, result: RuleResult) -> None:
-    assert WORD.apply(string) == result
+    assert common.WORD.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -127,7 +112,7 @@ def test_word(string: str, result: RuleResult) -> None:
     ],
 )
 def test_digit(string: str, result: RuleResult) -> None:
-    assert DIGIT.apply(string) == result
+    assert common.DIGIT.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -141,7 +126,7 @@ def test_digit(string: str, result: RuleResult) -> None:
     ],
 )
 def test_int(string: str, result: RuleResult) -> None:
-    assert INT.apply(string) == result
+    assert common.INT.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -154,7 +139,7 @@ def test_int(string: str, result: RuleResult) -> None:
     ],
 )
 def test_signed_int(string: str, result: RuleResult) -> None:
-    assert SIGNED_INT.apply(string) == result
+    assert common.SIGNED_INT.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -170,7 +155,7 @@ def test_signed_int(string: str, result: RuleResult) -> None:
     ],
 )
 def test_decimal(string: str, result: RuleResult) -> None:
-    assert DECIMAL.apply(string) == result
+    assert common.DECIMAL.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -184,7 +169,7 @@ def test_decimal(string: str, result: RuleResult) -> None:
     ],
 )
 def test_hexdigit(string: str, result: RuleResult) -> None:
-    assert HEXDIGIT.apply(string) == result
+    assert common.HEXDIGIT.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -206,7 +191,7 @@ def test_hexdigit(string: str, result: RuleResult) -> None:
     ],
 )
 def test_c_name(string: str, result: RuleResult) -> None:
-    assert C_NAME.apply(string) == result
+    assert common.C_NAME.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -220,7 +205,7 @@ def test_c_name(string: str, result: RuleResult) -> None:
     ],
 )
 def test_newline(string: str, result: RuleResult) -> None:
-    assert NEWLINE.apply(string) == result
+    assert common.NEWLINE.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -237,7 +222,7 @@ def test_newline(string: str, result: RuleResult) -> None:
     ],
 )
 def test_float(string: str, result: RuleResult) -> None:
-    assert FLOAT.apply(string) == result
+    assert common.FLOAT.apply(string) == result
 
 
 @pytest.mark.parametrize(
@@ -255,12 +240,43 @@ def test_float(string: str, result: RuleResult) -> None:
     ],
 )
 def test_signed_float(string: str, result: RuleResult) -> None:
-    assert SIGNED_FLOAT.apply(string) == result
+    assert common.SIGNED_FLOAT.apply(string) == result
 
 
 def test_number() -> None:
-    assert Crossandra(rules=[NUMBER]).tokenize("1.0") == [1.0]
+    assert Crossandra(rules=[common.NUMBER]).tokenize("1.0") == [1.0]
 
 
 def test_signed_number() -> None:
-    assert Crossandra(rules=[SIGNED_NUMBER]).tokenize("-1.0") == [-1.0]
+    assert Crossandra(rules=[common.SIGNED_NUMBER]).tokenize("-1.0") == [-1.0]
+
+
+@pytest.mark.parametrize(
+    ("string", "result"),
+    [("1", [1]), ("-1", [-1]), ("+1", [1])],
+)
+def test_any_int(string: str, result: list[int]) -> None:
+    assert Crossandra(rules=[common.ANY_INT]).tokenize(string) == result
+
+
+@pytest.mark.parametrize(
+    ("string", "result"),
+    [("1.0", [1.0]), ("-1.0", [-1.0]), ("+1.0", [1.0])],
+)
+def test_any_float(string: str, result: list[float]) -> None:
+    assert Crossandra(rules=[common.ANY_FLOAT]).tokenize(string) == result
+
+
+@pytest.mark.parametrize(
+    ("string", "result"),
+    [
+        ("1", [1]),
+        ("-1", [-1]),
+        ("+1", [1]),
+        ("1.05", [1.05]),
+        ("-1.05", [-1.05]),
+        ("+1.05", [1.05]),
+    ],
+)
+def test_any_number(string: str, result: list[int | float]) -> None:
+    assert Crossandra(rules=[common.ANY_NUMBER]).tokenize(string) == result
