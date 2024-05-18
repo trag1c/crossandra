@@ -38,6 +38,7 @@ jobs:
         python-version: ${{ matrix.python }}
     - uses: hynek/setup-cached-uv@v1
     - name: Install project
+      shell: bash
       run: |
         uv venv
         uv pip install . -r dev-requirements.txt
