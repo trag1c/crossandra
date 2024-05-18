@@ -8,7 +8,6 @@ install:
 
 check:
     python -m pytest
-    mypy --strict crossandra
-    mypy --strict tests
+    mypy --strict crossandra tests
     ruff check
     ruff format --check
