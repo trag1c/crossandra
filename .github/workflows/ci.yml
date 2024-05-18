@@ -35,7 +35,7 @@ jobs:
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v5
       with:
-          python-version: ${{ matrix.python }}
+        python-version: ${{ matrix.python }}
     - uses: hynek/setup-cached-uv@v1
     - name: Install project
       run: |
