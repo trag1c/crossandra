@@ -42,10 +42,9 @@ jobs:
       run: |
         uv venv
         uv pip install . -r dev-requirements.txt
-        source .venv/bin/activate
         echo "PATH=$PWD/.venv/bin:$PATH" >> $GITHUB_ENV
     - name: Run tests
-      run: python -m pytest
+      run: .venv/bin/python -m pytest
     - name: Lint code
       if: always()
       run: |
