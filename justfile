@@ -7,8 +7,7 @@ install:
     uv pip install . -r dev-requirements.txt
 
 check:
-    python -m pytest
-    mypy --strict crossandra
-    mypy --strict tests
+    python -m pytest --cov crossandra --cov-report term-missing
+    mypy --strict crossandra tests
     ruff check
     ruff format --check
