@@ -41,6 +41,8 @@ jobs:
       run: |
         uv venv
         uv pip install . -r dev-requirements.txt
+        source .venv/bin/activate
+        echo PATH=$PATH >> $GITHUB_ENV
     - name: Run tests
       run: python -m pytest
     - name: Lint code
