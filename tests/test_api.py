@@ -198,3 +198,25 @@ def test_rule_group() -> None:
     p, r = RuleGroup((a, b))
 
     assert (a, b) == (x, y) == (p, r)
+
+
+def test_rule_properties() -> None:
+    a = Rule[str]("a")
+    b = Rule[str]("a")
+
+    assert a == b
+    assert a != 1
+    assert isinstance(a | a | b, RuleGroup)
+    assert isinstance(a | (a | b), RuleGroup)
+
+
+@pytest.mark.parametrize(
+    "rule_or_rulegroup",
+    [
+        Rule[str]("a"),
+        RuleGroup((Rule[str]("a"), Rule[str]("b"))),
+    ],
+)
+def test_rule_group_creation_fail(rule_or_rulegroup: Rule[Any] | RuleGroup) -> None:
+    with pytest.raises(TypeError):
+        rule_or_rulegroup | 1
