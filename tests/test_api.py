@@ -14,6 +14,7 @@ from crossandra import (
     RuleGroup,
     common,
 )
+from crossandra.lib import invert_enum
 from crossandra.rule import IGNORED, NOT_APPLIED
 
 if TYPE_CHECKING:
@@ -220,3 +221,46 @@ def test_rule_properties() -> None:
 def test_rule_group_creation_fail(rule_or_rulegroup: Rule[Any] | RuleGroup) -> None:
     with pytest.raises(TypeError):
         rule_or_rulegroup | 1
+
+
+def test_invert_enum_with_aliases() -> None:
+    class Test(Enum):
+        FOO = "1"
+        BAR = ("2", "3")
+
+    assert invert_enum(Test) == {"1": Test.FOO, "2": Test.BAR, "3": Test.BAR}
+
+
+def test_tokenize_lines() -> None:
+    assert Crossandra(rules=[common.WORD], ignore_whitespace=True).tokenize_lines(
+        "a b\nc\rde"
+    ) == [["a", "b"], ["c"], ["de"]]
+
+
+def test_break_path() -> None:
+    class Test(Enum):
+        X = "ABC"
+        Y = "A"
+        Z = "B"
+
+    assert Crossandra(Test).tokenize("ABABAABABC") == [
+        Test.Y,
+        Test.Z,
+        Test.Y,
+        Test.Z,
+        Test.Y,
+        Test.Y,
+        Test.Z,
+        Test.X,
+    ]
+
+
+def test_tokenize_fast_with_ignored() -> None:
+    class Test(Enum):
+        FOO = "x"
+        BAR = "y"
+
+    assert Crossandra(Test, ignored_characters="z").tokenize("xzy") == [
+        Test.FOO,
+        Test.BAR,
+    ]
