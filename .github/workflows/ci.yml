@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+env:
+  PY_COLORS: 1
+  UV_VERSION: 0.1.44
+
+jobs:
+  ci:
+    runs-on: "${{ matrix.platform }}-latest"
+    environment: "Test"
+    strategy:
+      fail-fast: false
+      # https://blog.jaraco.com/efficient-use-of-ci-resources/
+      matrix:
+        python: ["3.8", "3.12"]
+        platform: ["ubuntu", "macos", "windows"]
+        include:
+        - python: "3.9"
+          platform: "ubuntu"
+        - python: "3.10"
+          platform: "ubuntu"
+        - python: "3.11"
+          platform: "ubuntu"
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python }}
+    - uses: yezz123/setup-uv@v4
+      with:
+        uv-version: ${{ env.UV_VERSION }}
+    - name: Install project
+      shell: bash
+      run: |
+        uv venv
+        uv pip install . -r dev-requirements.txt
+    - name: Run tests
+      run: uv run python -m pytest
+    - name: Lint code
+      if: always()
+      run: |
+        uv run ruff check
+        uv run ruff format --check
+    - name: Run mypy
+      if: always()
+      run: uv run mypy --strict crossandra tests
