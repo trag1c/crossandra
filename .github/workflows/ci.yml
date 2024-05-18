@@ -10,6 +10,7 @@ on:
 
 env:
   PY_COLORS: 1
+  UV_VERSION: 0.1.44
 
 jobs:
   ci:
@@ -36,20 +37,21 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python }}
-    - uses: hynek/setup-cached-uv@v1
+    - uses: yezz123/setup-uv@v4
+      with:
+        uv-version: ${{ env.UV_VERSION }}
     - name: Install project
       shell: bash
       run: |
         uv venv
         uv pip install . -r dev-requirements.txt
-        echo "PATH=$PWD/.venv/bin:$PATH" >> $GITHUB_ENV
     - name: Run tests
-      run: .venv/bin/python -m pytest
+      run: uv run python -m pytest
     - name: Lint code
       if: always()
       run: |
-        ruff check
-        ruff format --check
+        uv run ruff check
+        uv run ruff format --check
     - name: Run mypy
       if: always()
-      run: mypy --strict crossandra tests
+      run: uv run mypy --strict crossandra tests
