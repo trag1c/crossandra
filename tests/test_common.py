@@ -244,39 +244,39 @@ def test_signed_float(string: str, result: RuleResult) -> None:
 
 
 def test_number() -> None:
-    assert Crossandra(rules=[common.NUMBER]).tokenize("1.0") == [1.0]
+    assert common.NUMBER.apply("1.0") == (1.0, 3)
 
 
 def test_signed_number() -> None:
-    assert Crossandra(rules=[common.SIGNED_NUMBER]).tokenize("-1.0") == [-1.0]
+    assert common.SIGNED_NUMBER.apply("-1.0") == (-1.0, 4)
 
 
 @pytest.mark.parametrize(
     ("string", "result"),
-    [("1", [1]), ("-1", [-1]), ("+1", [1])],
+    [("1", (1, 1)), ("-1", (-1, 2)), ("+1", (1, 2))],
 )
-def test_any_int(string: str, result: list[int]) -> None:
-    assert Crossandra(rules=[common.ANY_INT]).tokenize(string) == result
+def test_any_int(string: str, result: RuleResult) -> None:
+    assert common.ANY_INT.apply(string) == result
 
 
 @pytest.mark.parametrize(
     ("string", "result"),
-    [("1.0", [1.0]), ("-1.0", [-1.0]), ("+1.0", [1.0])],
+    [("1.0", (1.0, 3)), ("-1.0", (-1.0, 4)), ("+1.0", (1.0, 4))],
 )
-def test_any_float(string: str, result: list[float]) -> None:
-    assert Crossandra(rules=[common.ANY_FLOAT]).tokenize(string) == result
+def test_any_float(string: str, result: RuleResult) -> None:
+    assert common.ANY_FLOAT.apply(string) == result
 
 
 @pytest.mark.parametrize(
     ("string", "result"),
     [
-        ("1", [1]),
-        ("-1", [-1]),
-        ("+1", [1]),
-        ("1.05", [1.05]),
-        ("-1.05", [-1.05]),
-        ("+1.05", [1.05]),
+        ("1", (1, 1)),
+        ("-1", (-1, 2)),
+        ("+1", (1, 2)),
+        ("1.05", (1.05, 4)),
+        ("-1.05", (-1.05, 5)),
+        ("+1.05", (1.05, 5)),
     ],
 )
-def test_any_number(string: str, result: list[int | float]) -> None:
-    assert Crossandra(rules=[common.ANY_NUMBER]).tokenize(string) == result
+def test_any_number(string: str, result: RuleResult) -> None:
+    assert common.ANY_NUMBER.apply(string) == result
