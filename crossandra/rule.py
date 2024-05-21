@@ -122,6 +122,16 @@ class RuleGroup:
 
     rules: tuple[Rule[Any], ...]
 
+    def apply(self, target: str) -> tuple[Any | str | Ignored, int] | NotApplied:
+        """
+        Applies the rules in the group to the target string. Returns the
+        result of the first rule that matches, or `NotApplied` if none do.
+        """
+        for rule in self.rules:
+            if (result := rule.apply(target)) is not NOT_APPLIED:
+                return result
+        return NOT_APPLIED
+
     def __iter__(self) -> Iterator[Rule[Any]]:
         yield from self.rules
 
