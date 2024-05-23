@@ -11,7 +11,7 @@ $ pip install crossandra
 (Some systems may require you to use `pip3`, `python -m pip`, or `py -m pip`
 instead)
 
-## [Documentation](https://github.com/trag1c/crossandra/wiki/The-Crossandra-class)
+## [Documentation]
 
 ## Examples
 ```py
@@ -85,4 +85,7 @@ print(*sm.tokenize(r"//\ ++ /\\/ --- /\/\/ - ///"))
 Crossandra is licensed under the MIT License.
 
 If you have any questions, or would like to get in touch, join my
-[Discord server](https://discord.gg/C8QE5tVQEq)!
+[Discord server]!
+
+[Documentation]: https://github.com/trag1c/crossandra/wiki/The-Crossandra-class
+[Discord server]: https://discord.gg/C8QE5tVQEq
