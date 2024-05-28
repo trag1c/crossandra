@@ -46,7 +46,7 @@ def hex2rgb(hex_color: str) -> tuple[int, int, int]:
 t = Crossandra(
     ignore_whitespace=True,
     rules=[
-        Rule(r"#[0-9a-fA-F]+", hex2rgb),
+        Rule(r"#[0-9a-fA-F]{6}", hex2rgb),
         common.WORD
     ]
 )
@@ -74,7 +74,7 @@ class Op(Enum):
 sm = Crossandra(
     Op,
     ignore_whitespace=True,
-    rules=[Rule(r"(?:\\|/)+", sm_int)]
+    rules=[Rule(r"[\\/]+", sm_int)]
 )
 
 print(*sm.tokenize(r"//\ ++ /\\/ --- /\/\/ - ///"))

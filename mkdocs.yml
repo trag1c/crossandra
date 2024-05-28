@@ -1,0 +1,30 @@
+site_name: Crossandra
+repo_url: https://github.com/trag1c/crossandra
+repo_name: trag1c/crossandra
+copyright: Copyright &copy; 2022–2024 trag1c
+nav:
+  - Home: index.md
+  - Examples: examples.md
+  - Reference: reference.md
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      accent: deep orange
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Enable dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: deep orange
+      toggle:
+        icon: material/toggle-switch
+        name: Disable dark mode
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
