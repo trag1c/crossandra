@@ -1,6 +1,6 @@
 [project]
 name = "crossandra"
-version = "2.2.0"
+version = "2.2.1"
 description = "A fast and simple enum/regex-based tokenizer with decent configurability"
 authors = [{ email = "trag1c <trag1cdev@yahoo.com>" }]
 license = { text = "MIT" }

@@ -37,7 +37,8 @@ def generate_tree(inp: Iterable[tuple[str, Enum]]) -> Tree:
         curr = result
         for c in k[:-1]:
             curr = cast(Tree, curr.setdefault(c, {}))
-        if dct := cast(Tree, curr.get(k[-1])):
+        if dct := curr.get(k[-1]):
+            assert isinstance(dct, dict)  # noqa: S101  (needed for mypyc)
             dct[""] = v
         else:
             curr[k[-1]] = v
