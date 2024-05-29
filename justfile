@@ -2,6 +2,11 @@
 default:
     @just --list
 
+build:
+    uv pip uninstall crossandra 2> /dev/null
+    rm -rf build
+    python setup.py install
+
 install:
     uv venv
     uv pip install . -r dev-requirements.txt
