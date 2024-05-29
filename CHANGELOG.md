@@ -7,6 +7,14 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.2.0] - 2024-05-29
+
+### Added
+* `RuleGroup.apply`
+* `common.ANY_INT`
+* `common.ANY_FLOAT`
+* `common.ANY_NUMBER`
+
 ## [2.1.0] - 2024-05-01
 
 This release should also include mypyc wheels for Python 3.12 on PyPI.
@@ -126,3 +134,4 @@ Initial release 🎉
 [1.3.0]: https://github.com/trag1c/crossandra/compare/1.2.4...1.3.0
 [2.0.0]: https://github.com/trag1c/crossandra/compare/1.3.0...2.0.0
 [2.1.0]: https://github.com/trag1c/crossandra/compare/2.0.0...2.1.0
+[2.2.0]: https://github.com/trag1c/crossandra/compare/2.1.0...2.2.0
