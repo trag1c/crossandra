@@ -34,7 +34,6 @@ Crossandra is licensed under the MIT License.
 If you have any questions, or would like to get in touch, join my
 [Discord server]!
 
-[Documentation]: https://github.com/trag1c/crossandra/wiki/The-Crossandra-class
 [Discord server]: https://discord.gg/C8QE5tVQEq
 [just]: https://github.com/casey/just
 [justfile]: https://github.com/trag1c/crossandra/blob/main/justfile
