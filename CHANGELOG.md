@@ -7,6 +7,13 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.2.1] - 2024-05-29
+
+### Fixed
+- Fixed mypyc wheels failing to generate a tree for a non-empty enum ([#36])
+
+[#36]: https://github.com/trag1c/crossandra/issues/36
+
 ## [2.2.0] - 2024-05-29
 
 ### Added
@@ -135,3 +142,4 @@ Initial release 🎉
 [2.0.0]: https://github.com/trag1c/crossandra/compare/1.3.0...2.0.0
 [2.1.0]: https://github.com/trag1c/crossandra/compare/2.0.0...2.1.0
 [2.2.0]: https://github.com/trag1c/crossandra/compare/2.1.0...2.2.0
+[2.2.1]: https://github.com/trag1c/crossandra/compare/2.2.0...2.2.1
