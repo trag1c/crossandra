@@ -95,6 +95,44 @@ def test_suppress_unknown(string: str, result: list[str]) -> None:
     )
 
 
+@pytest.mark.parametrize(
+    ("string", "result"),
+    [
+        ("1", []),
+        ("hello there", [(0, "hello"), (6, "there")]),
+        ("hello1", [(0, "hello")]),
+        ("", []),
+        ("$%&^", []),
+        ("hi.123-world", [(0, "hi"), (7, "world")]),
+        (
+            "Mr. John Smith Jr. was born in the U.S.A.",
+            [
+                (0, "Mr"),
+                (4, "John"),
+                (9, "Smith"),
+                (15, "Jr"),
+                (19, "was"),
+                (23, "born"),
+                (28, "in"),
+                (31, "the"),
+                (35, "U"),
+                (37, "S"),
+                (39, "A"),
+            ],
+        ),
+    ],
+)
+def test_suppress_unknown_with_positions(
+    string: str, result: list[tuple[int, str]]
+) -> None:
+    assert (
+        Crossandra(suppress_unknown=True, rules=[common.WORD]).tokenize(
+            string, with_positions=True
+        )
+        == result
+    )
+
+
 class BrainfuckToken(Enum):
     ADD = "+"
     SUB = "-"
@@ -142,6 +180,18 @@ def test_tokenize_fast() -> None:
     ]
 
 
+def test_tokenize_fast_with_positions() -> None:
+    assert Crossandra(BrainfuckToken, suppress_unknown=True).tokenize(
+        "cat program: ,[.,]", with_positions=True
+    ) == [
+        (13, BrainfuckToken.READ),
+        (14, BrainfuckToken.BEGIN_LOOP),
+        (15, BrainfuckToken.WRITE),
+        (16, BrainfuckToken.READ),
+        (17, BrainfuckToken.END_LOOP),
+    ]
+
+
 @pytest.mark.parametrize(
     ("expression", "result"),
     [
@@ -153,10 +203,38 @@ def test_tokenize_fast() -> None:
         ("10 % 3", [10, AT.MOD, 3]),
     ],
 )
-def test_tokenize(expression: str, result: list[Enum | Any]) -> None:
+def test_tokenize(expression: str, result: list[Any]) -> None:
     assert (
         Crossandra(ArithmeticToken, rules=[common.INT], suppress_unknown=True).tokenize(
             expression
+        )
+        == result
+    )
+
+
+@pytest.mark.parametrize(
+    ("expression", "result"),
+    [
+        (
+            "2 * 2 + 3 - 7",
+            [(0, 2), (2, AT.MUL), (4, 2), (6, AT.ADD), (8, 3), (10, AT.SUB), (12, 7)],
+        ),
+        ("2**3", [(0, 2), (1, AT.POW), (3, 3)]),
+        ("-5", [(0, AT.SUB), (1, 5)]),
+        ("100 + -5", [(0, 100), (4, AT.ADD), (6, AT.SUB), (7, 5)]),
+        (
+            "4 - 2 ** 5 / 2",
+            [(0, 4), (2, AT.SUB), (4, 2), (6, AT.POW), (9, 5), (11, AT.DIV), (13, 2)],
+        ),
+        ("10 % 3", [(0, 10), (3, AT.MOD), (5, 3)]),
+    ],
+)
+def test_tokenize_with_positions(
+    expression: str, result: list[tuple[int, Any]]
+) -> None:
+    assert (
+        Crossandra(ArithmeticToken, rules=[common.INT], suppress_unknown=True).tokenize(
+            expression, with_positions=True
         )
         == result
     )
@@ -241,6 +319,12 @@ def test_tokenize_lines() -> None:
     ) == [["a", "b"], ["c"], ["de"]]
 
 
+def test_tokenize_lines_with_positions() -> None:
+    assert Crossandra(rules=[common.WORD], ignore_whitespace=True).tokenize_lines(
+        "a b\nc\rde", with_positions=True
+    ) == [[(0, "a"), (2, "b")], [(0, "c")], [(0, "de")]]
+
+
 def test_break_path() -> None:
     class Test(Enum):
         X = "ABC"
@@ -259,6 +343,24 @@ def test_break_path() -> None:
     ]
 
 
+def test_break_path_with_positions() -> None:
+    class Test(Enum):
+        X = "ABC"
+        Y = "A"
+        Z = "B"
+
+    assert Crossandra(Test).tokenize("ABABAABABC", with_positions=True) == [
+        (0, Test.Y),
+        (1, Test.Z),
+        (2, Test.Y),
+        (3, Test.Z),
+        (4, Test.Y),
+        (5, Test.Y),
+        (6, Test.Z),
+        (7, Test.X),
+    ]
+
+
 def test_tokenize_fast_with_ignored() -> None:
     class Test(Enum):
         FOO = "x"
@@ -267,4 +369,17 @@ def test_tokenize_fast_with_ignored() -> None:
     assert Crossandra(Test, ignored_characters="z").tokenize("xzy") == [
         Test.FOO,
         Test.BAR,
+    ]
+
+
+def test_tokenize_fast_with_ignored_with_positions() -> None:
+    class Test(Enum):
+        FOO = "x"
+        BAR = "y"
+
+    assert Crossandra(Test, ignored_characters="z").tokenize(
+        "xzy", with_positions=True
+    ) == [
+        (0, Test.FOO),
+        (2, Test.BAR),
     ]
