@@ -36,7 +36,7 @@ def generate_tree(inp: Iterable[tuple[str, Enum]]) -> Tree:
     for k, v in inp:
         curr = result
         for c in k[:-1]:
-            curr = cast(Tree, curr.setdefault(c, {}))
+            curr = cast("Tree", curr.setdefault(c, {}))
         if dct := curr.get(k[-1]):
             assert isinstance(dct, dict)  # noqa: S101  (needed for mypyc)
             dct[""] = v
@@ -161,13 +161,13 @@ class Crossandra:
 
         for i, v in enumerate(string):
             if "" in tree:
-                break_path = (cast(Enum, tree[""]), i)
+                break_path = (cast("Enum", tree[""]), i)
 
             c = tree.get(v)
             if c is None:
                 if "" not in tree:
                     break
-                return Ok(cast(Enum, tree[""])), i
+                return Ok(cast("Enum", tree[""])), i
             if isinstance(c, Enum):
                 return Ok(c), i + 1
             tree = c

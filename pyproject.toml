@@ -1,16 +1,31 @@
+[build-system]
+requires = ["hatchling", "result~=0.9.0"]
+build-backend = "hatchling.build"
+
 [project]
 name = "crossandra"
 version = "2.2.1"
 description = "A fast and simple enum/regex-based tokenizer with decent configurability"
-authors = [{ email = "trag1c <trag1cdev@yahoo.com>" }]
+authors = [{ name = "trag1c", email = "dev@jakubr.me" }]
 license = { text = "MIT" }
 urls = { repository = "https://github.com/trag1c/crossandra" }
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = ["result ~= 0.9.0"]
+dependencies = ["result~=0.9.0"]
 
-[tool.setuptools.packages.find]
-include = ["crossandra*"]
+[dependency-groups]
+dev = [
+    "mike~=2.1.4",
+    "mkdocs~=1.6.1",
+    "mkdocs-material~=9.7.6",
+    "mypy[mypyc]~=1.14.0",
+    "pytest~=8.2.0",
+    "pytest-cov~=5.0.0",
+    "ruff~=0.15.10",
+]
+
+[tool.hatch.build.targets.wheel.hooks.mypyc]
+dependencies = ["hatch-mypyc"]
 
 [tool.cibuildwheel.linux]
 archs = ["auto", "aarch64"]
@@ -33,9 +48,5 @@ select = ["ALL"]
 ignore = ["COM", "D", "FIX", "ANN1", "ANN401", "ISC001", "ERA", "C9", "PLR0913"]
 
 [tool.ruff.lint.per-file-ignores]
-"crossandra/*" = ["PT"]
+# "crossandra/*" = ["PT"]
 "tests/*" = ["INP", "FBT", "PLC2701", "S101", "SLF001"]
-
-[build-system]
-requires = ["setuptools", "mypy", "result ~= 0.9.0"]
-build-backend = "setuptools.build_meta"
