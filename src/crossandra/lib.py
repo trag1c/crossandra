@@ -104,7 +104,9 @@ class Crossandra:
         self.__suppress = suppress_unknown
         self.__tree = generate_tree(self.__tokens.items())
 
-    def tokenize(self, code: str) -> list[Enum | Any]:
+    def tokenize(
+        self, code: str, *, with_positions: bool = False
+    ) -> list[Any] | list[tuple[int, Any]]:
         """
         Tokenizes the input string. Returns a list of tokens.
         """
@@ -114,13 +116,14 @@ class Crossandra:
             code += " "
 
         if self.__fast:
-            toks = self.__tokenize_fast(code)
+            toks = self.__tokenize_fast(code, with_positions=with_positions)
             if toks.is_ok():
                 return toks.unwrap()
             msg = f"invalid token: {toks.unwrap_err()!r}"
             raise CrossandraTokenizationError(msg)
 
-        tokens: list[Enum | Any] = []
+        original_size = len(code)
+        tokens: list[Any] = []
         maxlen = self.__maxlen
         ignored = self.__ignored
         t_append = tokens.append
@@ -128,7 +131,11 @@ class Crossandra:
         while code := code.lstrip(ignored):
             token, length = handle(code[:maxlen])
             if token.is_ok():
-                t_append(token.unwrap())
+                t_append(
+                    (original_size - len(code), token.unwrap())
+                    if with_positions
+                    else token.unwrap()
+                )
                 code = code[length:]
                 continue
             for rule in self.__rules:
@@ -136,7 +143,11 @@ class Crossandra:
                 if not isinstance(tok, NotApplied):
                     token_, length = tok
                     if not isinstance(token_, Ignored):
-                        t_append(token_)
+                        t_append(
+                            (original_size - len(code), token_)
+                            if with_positions
+                            else token_
+                        )
                     code = code[length:]
                     break
             else:
@@ -147,14 +158,19 @@ class Crossandra:
 
         return tokens
 
-    def tokenize_lines(self, code: str) -> list[list[Enum | Any]]:
+    def tokenize_lines(
+        self, code: str, *, with_positions: bool = False
+    ) -> list[list[Any]] | list[list[tuple[int, Any]]]:
         """
         Tokenizes the input string line by line. Returns a nested list
         of tokens, where each inner list corresponds to a consecutive
         line of the input string. Equivalent to
         `[foo.tokenize(line) for line in source.splitlines()]`.
         """
-        return list(map(self.tokenize, code.splitlines()))
+        return [
+            self.tokenize(line, with_positions=with_positions)
+            for line in code.splitlines()
+        ]
 
     def __handle(self, string: str) -> tuple[Result[Enum, str], int]:
         tree = self.__tree
@@ -178,18 +194,20 @@ class Crossandra:
 
         return Err(string[0]), 0
 
-    def __tokenize_fast(self, code: str) -> Result[list[Enum], str]:
-        tokens: list[Enum] = []
+    def __tokenize_fast(
+        self, code: str, *, with_positions: bool = False
+    ) -> Result[list[Enum], str] | Result[list[tuple[int, Enum]], tuple[int, str]]:
+        tokens: list[Any] = []
         append = tokens.append
         ignored = self.__ignored
         suppress = self.__suppress
         source = self.__tokens
-        for char in code:
+        for i, char in enumerate(code):
             if char in ignored:
                 continue
             if (t := source.get(char)) is None:
                 if suppress:
                     continue
-                return Err(char)
-            append(t)
+                return Err((i, char)) if with_positions else Err(char)
+            append((i, t) if with_positions else t)
         return Ok(tokens)

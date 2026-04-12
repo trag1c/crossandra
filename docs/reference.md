@@ -48,17 +48,21 @@ print(
 
 ### `Crossandra.tokenize`
 ```py
-def tokenize(self, code: str) -> list[Enum | Any]
+def tokenize(self, code: str, *, with_positions: Literal[True]) -> list[tuple[int, Any]]
+def tokenize(self, code: str, *, with_positions: Literal[False] = False) -> list[Any]
 ```
-Tokenizes the input string. Returns a list of tokens.
+Tokenizes the input string. Returns a list of tokens. Includes token starting
+positions when `with_positions=True`.
 
 ### `Crossandra.tokenize_lines`
 ```py
-def tokenize_lines(self, code: str) -> list[list[Enum | Any]]
+def tokenize_lines(self, code: str, *, with_positions: Literal[True]) -> list[list[tuple[int, Any]]]
+def tokenize_lines(self, code: str, *, with_positions: Literal[False] = False) -> list[list[Any]]
 ```
 Tokenizes the input string line by line. Returns a nested list of tokens, where
 each inner list corresponds to a consecutive line of the input string.
 Equivalent to `[foo.tokenize(line) for line in source.splitlines()]`.
+Includes token starting positions when `with_positions=True`.
 
 ### Fast Mode
 When all tokens are of length 1 and there are no additional rules, Crossandra
