@@ -88,23 +88,15 @@ Contributions are welcome!
 Please open an issue before submitting a pull request (unless it's a minor
 change like fixing a typo).
 
-To get started:
-1. Clone your fork of the project.
-2. Set up the project with `just install` (uses [uv]).
-3. After you're done, run `just check` to check your changes.
-
-> [!note]
-> If you don't want to use [`just`][just], simply look up the recipes
-> in the project's [`justfile`][justfile].
+Make sure to run `just check` to verify your changes (or, if you don't want to
+use [`just`][just], simply look up the recipes in the project's
+[`justfile`][justfile]).
 
 ## License
-Crossandra is licensed under the MIT License.
+`crossandra` is licensed under the [MIT License].
+© [trag1c], 2022-2026
 
-If you have any questions, or would like to get in touch, join my
-[Discord server]!
-
-[Documentation]: https://trag1c.github.io/crossandra/
-[Discord server]: https://discord.gg/C8QE5tVQEq
 [just]: https://github.com/casey/just
 [justfile]: https://github.com/trag1c/crossandra/blob/main/justfile
-[uv]: https://github.com/astral-sh/uv
+[MIT License]: https://opensource.org/license/mit
+[trag1c]: https://github.com/trag1c
