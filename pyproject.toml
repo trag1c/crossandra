@@ -10,7 +10,7 @@ authors = [{ name = "trag1c", email = "dev@jakubr.me" }]
 license = { text = "MIT" }
 urls = { repository = "https://github.com/trag1c/crossandra" }
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = ["result~=0.9.0"]
 
 [dependency-groups]
@@ -41,12 +41,11 @@ exclude_also = [
 ]
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = ["COM", "D", "FIX", "ANN1", "ANN401", "ISC001", "ERA", "C9", "PLR0913"]
 
 [tool.ruff.lint.per-file-ignores]
-# "crossandra/*" = ["PT"]
 "tests/*" = ["INP", "FBT", "PLC2701", "S101", "SLF001"]

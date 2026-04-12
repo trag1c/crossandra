@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import TYPE_CHECKING, Any, Dict, Union, cast
+from typing import TYPE_CHECKING, Any, TypeAlias, cast, final
 
 from result import Err, Ok, Result
 
@@ -23,7 +23,7 @@ def invert_enum(enum: type[Enum]) -> dict[str, Enum]:
     return out
 
 
-Tree = Dict[str, Union[Enum, "Tree"]]
+Tree: TypeAlias = "dict[str, Enum | Tree]"
 
 
 def empty_handler(string: str) -> tuple[Result[Enum, str], int]:
@@ -49,6 +49,7 @@ class Empty(Enum):
     """An empty enum. Used by Crossandra if no enum is supplied."""
 
 
+@final
 class Crossandra:
     """
     A Crossandra tokenizer. Takes the following arguments:
