@@ -18,7 +18,7 @@ from crossandra.lib import invert_enum
 from crossandra.rule import IGNORED, NOT_APPLIED
 
 if TYPE_CHECKING:
-    from test_common import RuleResult
+    from tests.test_common import RuleResult
 
 
 @pytest.mark.parametrize(
@@ -84,7 +84,7 @@ def test_suppress_unknown_error() -> None:
         ("hi.123-world", ["hi", "world"]),
         (
             "Mr. John Smith Jr. was born in the U.S.A.",
-            "Mr John Smith Jr was born in the U S A".split(),
+            ["Mr", "John", "Smith", "Jr", "was", "born", "in", "the", "U", "S", "A"],
         ),
     ],
 )
@@ -119,15 +119,15 @@ AT = ArithmeticToken
 
 
 def test_fast() -> None:
-    assert Crossandra(BrainfuckToken)._Crossandra__fast  # type: ignore[attr-defined]
+    assert Crossandra(BrainfuckToken).__fast
 
 
 def test_not_fast_long_tokens() -> None:
-    assert not Crossandra(ArithmeticToken)._Crossandra__fast  # type: ignore[attr-defined]
+    assert not Crossandra(ArithmeticToken).__fast
 
 
 def test_not_fast_rules() -> None:
-    assert not Crossandra(BrainfuckToken, rules=[common.NEWLINE])._Crossandra__fast  # type: ignore[attr-defined]
+    assert not Crossandra(BrainfuckToken, rules=[common.NEWLINE]).__fast
 
 
 def test_tokenize_fast() -> None:
@@ -185,7 +185,11 @@ def test_rule() -> None:
 
 @pytest.mark.parametrize(
     ("flags", "result"),
-    [(0, NOT_APPLIED), (re.I, ("A", 1)), (re.I | re.S, ("A\nb", 3))],
+    [
+        (0, NOT_APPLIED),
+        (re.IGNORECASE, ("A", 1)),
+        (re.IGNORECASE | re.DOTALL, ("A\nb", 3)),
+    ],
 )
 def test_flags(flags: re.RegexFlag, result: RuleResult) -> None:
     assert Rule(r"a.?b?", flags=flags).apply("A\nb") == result

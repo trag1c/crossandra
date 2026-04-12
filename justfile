@@ -2,20 +2,18 @@
 default:
     @just --list
 
-# Builds mypyc wheels locally
-build:
-    uv pip uninstall crossandra 2> /dev/null
-    rm -rf build
-    python setup.py install
-
-# Installs the project
-install:
-    uv venv
-    uv pip install . -r dev-requirements.txt
-
 # Runs pytest, mypy, ruff
 check:
-    python -m pytest --cov crossandra --cov-report term-missing
-    mypy --strict crossandra tests
-    ruff check
-    ruff format --check
+    uv run pytest --cov src/crossandra --cov-report term-missing
+    uv run mypy --strict src tests
+    uv run ruff check
+    uv run ruff format --check
+
+# Runs ruff's formatter and ruff's isort rules
+format:
+    uv run ruff format
+    uv run ruff check --select I,RUF022,RUF023 --fix
+
+# Runs ruff in fix mode
+fix:
+    uv run ruff check --fix

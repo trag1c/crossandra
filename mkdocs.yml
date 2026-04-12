@@ -2,7 +2,7 @@ site_name: Crossandra
 repo_url: https://github.com/trag1c/crossandra
 site_url: https://trag1c.github.io/crossandra/
 repo_name: trag1c/crossandra
-copyright: Copyright &copy; 2022–2024 trag1c
+copyright: Copyright &copy; 2022–2026 trag1c
 nav:
   - Home: index.md
   - Examples: examples.md
