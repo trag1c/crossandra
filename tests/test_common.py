@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple, Union
-
 import pytest
 
 from crossandra import common
@@ -15,7 +13,7 @@ from crossandra.rule import NOT_APPLIED, Ignored, NotApplied
 # NEG = NEGATIVE
 # USCORE = UNDERSCORE
 
-RuleResult = Union[Tuple[Union[Ignored, str], int], NotApplied]
+RuleResult = tuple[Ignored | str, int] | NotApplied
 
 
 @pytest.mark.parametrize(
