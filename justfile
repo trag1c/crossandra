@@ -4,7 +4,7 @@ default:
 
 # Runs pytest, mypy, ruff
 check:
-    uv run pytest --cov src/crossandra --cov-report term-missing
+    uv run pytest -vv
     uv run mypy --strict src tests
     uv run ruff check
     uv run ruff format --check

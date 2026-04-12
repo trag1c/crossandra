@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling", "result~=0.9.0"]
+requires = ["hatchling", "result~=0.17.0"]
 build-backend = "hatchling.build"
 
 [project]
@@ -11,16 +11,15 @@ license = { text = "MIT" }
 urls = { repository = "https://github.com/trag1c/crossandra" }
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["result~=0.9.0"]
+dependencies = ["result~=0.17.0"]
 
 [dependency-groups]
 dev = [
     "mike~=2.1.4",
     "mkdocs~=1.6.1",
     "mkdocs-material~=9.7.6",
-    "mypy[mypyc]~=1.14.0",
-    "pytest~=8.2.0",
-    "pytest-cov~=5.0.0",
+    "mypy[mypyc]~=1.20.0",
+    "pytest~=9.0.3",
     "ruff~=0.15.10",
 ]
 
