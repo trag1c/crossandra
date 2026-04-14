@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "crossandra"
-version = "2.2.1"
+version = "2.3.0"
 description = "A fast and simple enum/regex-based tokenizer with decent configurability"
 authors = [{ name = "trag1c", email = "dev@jakubr.me" }]
 license = { text = "MIT" }

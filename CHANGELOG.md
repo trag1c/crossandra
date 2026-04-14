@@ -7,12 +7,26 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.3.0] - 2026-04-15
+
+### Added
+- `Crossandra.tokenize` and `Crossandra.tokenize_lines` now accept an optional
+  `with_positions` argument. When set to `True`, the resulting tokens will
+  be of the `(int, T)` pair form, with the first element being the starting
+  position of the token relative to the start of the string (or the start of the
+  line when using `tokenize_lines`), and `T` being the actual token.
+
+### Removed
+* Python 3.8 and 3.9 support
+
+
 ## [2.2.1] - 2024-05-29
 
 ### Fixed
 - Fixed mypyc wheels failing to generate a tree for a non-empty enum ([#36])
 
 [#36]: https://github.com/trag1c/crossandra/issues/36
+
 
 ## [2.2.0] - 2024-05-29
 
@@ -21,6 +35,7 @@ and this project adheres to
 * `common.ANY_INT`
 * `common.ANY_FLOAT`
 * `common.ANY_NUMBER`
+
 
 ## [2.1.0] - 2024-05-01
 
@@ -34,6 +49,7 @@ This release should also include mypyc wheels for Python 3.12 on PyPI.
 ### Fixed
 - The `common.NUMBER` and `common.SIGNED_NUMBER` rule groups now correctly
   prioritize floats over integers
+
 
 ## [2.0.0] - 2023-04-29
 
@@ -143,3 +159,4 @@ Initial release 🎉
 [2.1.0]: https://github.com/trag1c/crossandra/compare/2.0.0...2.1.0
 [2.2.0]: https://github.com/trag1c/crossandra/compare/2.1.0...2.2.0
 [2.2.1]: https://github.com/trag1c/crossandra/compare/2.2.0...2.2.1
+[2.3.0]: https://github.com/trag1c/crossandra/compare/2.2.1...2.3.0
