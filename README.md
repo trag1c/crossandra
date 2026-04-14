@@ -96,6 +96,7 @@ use [`just`][just], simply look up the recipes in the project's
 `crossandra` is licensed under the [MIT License].
 © [trag1c], 2022-2026
 
+[Documentation]: https://trag1c.github.io/crossandra/
 [just]: https://github.com/casey/just
 [justfile]: https://github.com/trag1c/crossandra/blob/main/justfile
 [MIT License]: https://opensource.org/license/mit
